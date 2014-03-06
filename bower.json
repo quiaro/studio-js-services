@@ -1,0 +1,6 @@
+{
+  "name": "Crafter Studio Services",
+  "version": "0.1.0",
+  "main": "src/services.js",
+  "ignore": []
+}
