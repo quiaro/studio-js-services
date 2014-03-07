@@ -1,0 +1,35 @@
+{
+  "name": "StudioServices",
+  "title": "Crafter Studio Services",
+  "description": "Javascript library for Crafter Studio REST services",
+  "version": "0.1.0",
+  "main": "dist/services.js",
+  "author": {
+    "name": "Crafter Software",
+    "url": "http://craftercms.org"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/"
+  },
+  "keywords": [
+    "crafter",
+    "studio",
+    "services",
+    "javascript",
+    "library"
+  ],
+  "licenses": [
+    {
+      "type": "GNU v3",
+      "url": "https://github.com/craftercms/studio3/blob/master/LICENSE"
+    }
+  ],
+  "dependencies": {},
+  "devDependencies": {
+    "grunt": "0.4.2",
+    "grunt-contrib-requirejs": "0.4.3",
+    "grunt-contrib-jshint": "0.8.0",
+    "grunt-contrib-uglify": "0.3.2"
+  }
+}
