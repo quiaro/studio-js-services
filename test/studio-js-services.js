@@ -2,7 +2,7 @@ requirejs.config({
     baseUrl: '/'
 });
 
-requirejs(['src/services'], function(StudioServices) {
+requirejs(['src/studio-js-services'], function(StudioServices) {
 
     console.log('Testing crafter studio services ...');
 

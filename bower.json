@@ -1,9 +1,12 @@
 {
-  "name": "Crafter Studio Services",
-  "version": "0.1.0",
-  "main": "src/services.js",
-  "ignore": [],
-  "devDependencies": {
-    "requirejs": "2.1.11"
-  }
+    "name": "Crafter Studio Services",
+    "version": "0.1.0",
+    "main": "dist/studio-js-services.js",
+    "ignore": [],
+    "dependencies": {
+        "request-agent": "~1.0.0"
+    },
+    "devDependencies": {
+        "requirejs": "2.1.11"
+    }
 }
