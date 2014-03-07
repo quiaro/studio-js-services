@@ -1,17 +1,21 @@
-# Crafter Studio Services
+# Studio JS Services
 
-## Key features
+[Crafter Studio](https://github.com/quiaro/studio3) provides a [RESTful API](http://studio3.craftercms.org/studio-server/documentation.html) to manage all its resources.
 
-* feature 1
-* feature 2
+Studio JS Services intends to simplify interaction with Crafter Studio's RESTful API by exposing a simpler API as a collection of Javascript methods.
 
-## Getting PubSubJS
+## Benefits
 
-There are several ways of getting PubSubJS
+* Avoid dependencies on Crafter Studio services URIs
+* Simplify the generation of requests by providing an abstraction level
+* Keep requests easier to read and maintain by providing a [promise-like API](http://api.jquery.com/category/deferred-object/).
 
-* [Download a tagged version](https://github.com/mroderick/PubSubJS/tags) from GitHub
-* Install via npm (`npm install pubsub-js`)
-* Intall via bower (`bower install pubsub-js`)
+## Getting Studio JS Services
+
+There are a couple of ways of getting Studio JS Services
+
+* [Download it](https://github.com/quiaro/studio-js-services) from GitHub
+* Install it into your project via bower (`bower install studio-js-services`)
 
 ## Examples
 
