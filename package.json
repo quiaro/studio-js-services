@@ -10,7 +10,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/"
+    "url": "https://github.com/quiaro/studio-js-services.git"
   },
   "keywords": [
     "crafter",
@@ -28,10 +28,17 @@
   "dependencies": {},
   "devDependencies": {
     "grunt": "0.4.2",
+    "grunt-bower-task": "0.3.4",
+    "grunt-contrib-clean": "0.5.0",
+    "grunt-contrib-copy": "0.5.0",
+    "grunt-contrib-symlink": "0.3.0",
     "grunt-contrib-requirejs": "0.4.3",
     "grunt-contrib-jshint": "0.8.0",
     "grunt-contrib-uglify": "0.3.2",
-    "grunt-bower-task": "0.3.4",
+    "grunt-contrib-connect": "0.7.1",
+    "grunt-contrib-watch": "0.5.3",
+    "grunt-open": "0.2.3",
+    "connect-livereload": "0.3.2",
     "matchdep": "0.3.0"
   }
 }
