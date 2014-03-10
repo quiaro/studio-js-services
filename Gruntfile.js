@@ -45,9 +45,6 @@ module.exports = function(grunt) {
         copy: {
             dev: {
                 files: [{
-                    src: '<%= cfg.root %><%= cfg.path.test %>/index.html',
-                    dest: '<%= cfg.output.dev %>/index.html'
-                }, {
                     expand: true,
                     cwd: '<%= cfg.root %><%= cfg.path.test %>',
                     src: '{,*/}*.js',
@@ -56,9 +53,6 @@ module.exports = function(grunt) {
             },
             build: {
                 files: [{
-                    src: '<%= cfg.root %><%= cfg.path.test %>/index.html',
-                    dest: '<%= cfg.output.build %>/index.html'
-                }, {
                     expand: true,
                     cwd: '<%= cfg.root %><%= cfg.path.test %>',
                     src: '{,*/}*.js',
@@ -111,6 +105,29 @@ module.exports = function(grunt) {
             }
         },
 
+        replace: {
+            options: {
+                variables: {
+                    'main_path': '',
+                    'min': '.min'
+                }
+            },
+            dev: {
+                options: {
+                    variables: {
+                        'main_path': 'src/',
+                        'min': ''
+                    }
+                },
+                src: '<%= cfg.root %><%= cfg.path.test %>/index.html',
+                dest: '<%= cfg.output.dev %>/index.html'
+            },
+            build: {
+                src: '<%= cfg.root %><%= cfg.path.test %>/index.html',
+                dest: '<%= cfg.output.build %>/index.html'
+            }
+        },
+
         requirejs: {
             dist: {
                 // Options: https://github.com/jrburke/r.js/blob/master/build/example.build.js
@@ -119,7 +136,7 @@ module.exports = function(grunt) {
                     generateSourceMaps: false,
                     name: 'studioServices',
                     optimize: 'none',
-                    out: '<%= cfg.output.dist %><%= cfg.path.src %>/studioServices.js',
+                    out: '<%= cfg.output.dist %>/studioServices.js',
                     paths: {
                         request_agent: '../lib/request-agent/js/request-agent'
                     },
@@ -156,13 +173,24 @@ module.exports = function(grunt) {
             },
             dist: {
                 files: {
-                    '<%= cfg.output.dist %><%= cfg.path.src %>/studioServices.min.js':
-                    ['<%= cfg.output.dist %><%= cfg.path.src %>/studioServices.js']
+                    '<%= cfg.output.dist %>/studioServices.min.js':
+                    ['<%= cfg.output.dist %>/studioServices.js']
                 }
             }
         },
 
         watch: {
+            replace: {
+                files: ['<%= cfg.root %><%= cfg.path.test %>/index.html'],
+                tasks: ['replace:dev']
+            },
+            copy: {
+                files: [
+                    '<%= cfg.root %><%= cfg.path.test %>/index.html',
+                    '<%= cfg.root %><%= cfg.path.test %>/{,*/}*.js'
+                ],
+                tasks: ['copy:dev']
+            },
             livereload: {
                 options: {
                     livereload: LIVERELOAD_PORT
@@ -172,13 +200,6 @@ module.exports = function(grunt) {
                     '<%= cfg.output.dev %>/{,*/}*.js',
                     '<%= cfg.root %><%= cfg.path.src %>/{,*/}*.js',
                 ]
-            },
-            copy: {
-                files: [
-                    '<%= cfg.root %><%= cfg.path.test %>/index.html',
-                    '<%= cfg.root %><%= cfg.path.test %>/{,*/}*.js'
-                ],
-                tasks: ['copy:dev']
             }
         }
 
@@ -186,11 +207,11 @@ module.exports = function(grunt) {
 
     grunt.registerTask('dev',
         'Start a live-reloading dev webserver on localhost for development',
-        ['clean:dev', 'symlink:dev', 'copy:dev', 'connect:livereload', 'open', 'watch']);
+        ['clean:dev', 'symlink:dev', 'replace:dev', 'copy:dev', 'connect:livereload', 'open', 'watch']);
 
     grunt.registerTask('build',
         'Build the services library for production and test it against a server on localhost',
-        ['clean:build', 'lint', 'copy:build', 'symlink:build',
+        ['clean:build', 'lint', 'replace:build', 'copy:build', 'symlink:build',
          'requirejs:dist', 'uglify:dist', 'open', 'connect:build:keepalive']);
 
     grunt.registerTask('lint',
