@@ -1,0 +1,28 @@
+{
+  "bitwise": true,
+  "curly": true,
+  "eqeqeq": true,
+  "forin" : true,
+  "immed": true,
+  "latedef": true,
+  "newcap": false,
+  "noarg": true,
+  "noempty": true,
+  "nonew": true,
+  "quotmark": "single",
+  "undef": true,
+  "unused": "vars",
+  "strict": true,
+  "trailing": true,
+  "maxparams": 7,
+  "maxdepth": 4,
+  "maxcomplexity": 10,
+  "maxlen": 120,
+
+  "browser": true,
+  "node": true,
+  "jquery": true,
+  "globals": {
+    "angular": true
+  }
+}
