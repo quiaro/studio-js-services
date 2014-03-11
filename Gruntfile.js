@@ -109,14 +109,16 @@ module.exports = function(grunt) {
             options: {
                 variables: {
                     'main_path': '',
-                    'min': '.min'
+                    'min': '.min',
+                    'debug': false
                 }
             },
             dev: {
                 options: {
                     variables: {
                         'main_path': 'src/',
-                        'min': ''
+                        'min': '',
+                        'debug': true
                     }
                 },
                 src: '<%= cfg.root %><%= cfg.path.test %>/index.html',
@@ -169,7 +171,12 @@ module.exports = function(grunt) {
             options: {
                 preserveComments: false,
                 report: 'min',
-                sourceMap: true
+                sourceMap: true,
+                compress: {
+                    global_defs: {
+                        DEBUG: false
+                    }
+                }
             },
             dist: {
                 files: {
