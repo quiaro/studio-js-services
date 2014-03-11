@@ -1,14 +1,15 @@
 /* global define */
 
-define(['asset', 'template'], function (Asset, Template) {
+define(['services/asset',
+        'services/config',
+        'services/template'], function (Asset, Config, Template) {
 
     'use strict';
 
-    var Services = {};
-
-    Services.Asset = Asset;
-    Services.Template = Template;
-
-    return Object.freeze(Services);
+    return Object.freeze({
+        Asset: Asset,
+        Config: Config,
+        Template: Template
+    });
 
 });
