@@ -8,6 +8,7 @@ define(function() {
         apiVersion: 1,
         domain: '',
         port: '',
+        protocol: '',
         site: '',
         urlBase: 'api'
     };
