@@ -1,6 +1,6 @@
 /* global define */
 
-define(['request_agent'], function(RA){
+define(['request_agent', '../config'], function(RA, CFG){
 
     'use strict';
 
