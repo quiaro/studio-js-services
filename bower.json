@@ -2,11 +2,17 @@
     "name": "Crafter Studio Services",
     "version": "0.1.0",
     "main": "dist/studioServices.min.js",
-    "ignore": [],
-    "dependencies": {
-        "request-agent": "~1.0.0"
-    },
+    "ignore": [
+        "**/.*",
+        "/lib",
+        "/src",
+        "Gruntfile.js",
+        "package.json",
+        "bower.json"
+    ],
+    "dependencies": {},
     "devDependencies": {
+        "request-agent": "~1.0.0",
         "requirejs": "2.1.11"
     },
     "exportsOverride": {
