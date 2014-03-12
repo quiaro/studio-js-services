@@ -1,27 +1,30 @@
 /* global define, DEBUG */
 
-define(['request_agent', '../utils'], function(requestAgent, utils){
+define(['request_agent'], function(requestAgent){
 
     'use strict';
 
-    var baseUrl = utils.getBaseUrl() + '/config';
+    var module = function (utils) {
+        this.utils = utils;
+        this.baseUrl = utils.getBaseUrl() + '/config';
 
-    if (DEBUG) {
-        utils.logService({
-            name: 'Config',
-            url: baseUrl
-        });
+        if (DEBUG) {
+            this.utils.logService({
+                name: 'Config',
+                url: this.baseUrl
+            });
+        }
     }
 
-    function getDescriptor (moduleName) {
+    module.prototype.getDescriptor = function getDescriptor (moduleName) {
         var serviceUrl, promise;
 
         if (typeof moduleName === 'string' && !!moduleName) {
-            serviceUrl = baseUrl + '/list/' + moduleName;
+            serviceUrl = this.baseUrl + '/list/' + moduleName;
             promise = requestAgent.getJSON(serviceUrl);
 
             if (DEBUG) {
-                utils.logMethod({
+                this.utils.logMethod({
                     name: 'Config.getDescriptor',
                     params: arguments,
                     url: serviceUrl,
@@ -36,15 +39,15 @@ define(['request_agent', '../utils'], function(requestAgent, utils){
         }
     }
 
-    function getPlugins (containerName) {
+    module.prototype.getPlugins = function getPlugins (containerName) {
         var serviceUrl, promise;
 
         if (typeof containerName === 'string' && !!containerName) {
-            serviceUrl = baseUrl + '/plugins/' + containerName;
+            serviceUrl = this.baseUrl + '/plugins/' + containerName;
             promise = requestAgent.getJSON(serviceUrl);
 
             if (DEBUG) {
-                utils.logMethod({
+                this.utils.logMethod({
                     name: 'Config.getPlugins',
                     params: arguments,
                     url: serviceUrl,
@@ -59,9 +62,6 @@ define(['request_agent', '../utils'], function(requestAgent, utils){
         }
     }
 
-    return {
-        getDescriptor: getDescriptor,
-        getPlugins: getPlugins
-    };
+    return module;
 
 });
