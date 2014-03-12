@@ -1,4 +1,4 @@
-/* global define */
+/* global define, DEBUG */
 
 define(['config'], function(CFG) {
 
@@ -26,9 +26,9 @@ define(['config'], function(CFG) {
         if (CFG.services.domain) {
             path = [CFG.services.protocol, '://',
                     CFG.services.domain, ':', CFG.services.port,
-                    '/', CFG.api.base, '/', CFG.api.version].join("");
+                    '/', CFG.api.base, '/', CFG.api.version].join('');
         } else {
-            path = ['/', CFG.api.base, '/', CFG.api.version].join("");
+            path = ['/', CFG.api.base, '/', CFG.api.version].join('');
         }
         return path;
     }
@@ -57,7 +57,7 @@ define(['config'], function(CFG) {
                 console.log('*** FAILED: ', reason);
             });
         } else {
-            console.log('*** No promise for: ' + method.name)
+            console.log('*** No promise for: ' + method.name);
         }
     }
 
