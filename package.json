@@ -1,5 +1,5 @@
 {
-  "name": "StudioServices",
+  "name": "studio-js-services",
   "title": "Crafter Studio Services",
   "description": "Javascript library for Crafter Studio REST services",
   "version": "0.1.0",
