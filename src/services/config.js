@@ -1,28 +1,31 @@
 /* global define, DEBUG */
 
-define(['request_agent', '../config'], function(RA, CFG){
+define(['request_agent', '../config', '../debug'], function(requestAgent, CFG, debug){
 
     'use strict';
 
     var baseUrl = CFG.getBaseUrl() + '/config';
 
-    if (DEBUG) { console.log('Config | base URL: ', baseUrl); }
+    if (DEBUG) {
+        debug.logService({
+            name: 'Config',
+            url: baseUrl
+        });
+    }
 
     function getDescriptor (moduleName) {
         var serviceUrl, promise;
 
-        if (DEBUG) { console.log('Calling Config.getDescriptor with params: ', arguments); }
-
         if (typeof moduleName === 'string' && !!moduleName) {
             serviceUrl = baseUrl + '/list/' + moduleName;
-            promise = RA.getJSON(serviceUrl);
+            promise = requestAgent.getJSON(serviceUrl);
 
             if (DEBUG) {
-                promise.done(function(result) {
-                    console.log('Request from Config.getDescriptor resolved: ', result);
-                });
-                promise.fail(function(reason){
-                    console.error('Request from Config.getDescriptor failed: ', reason);
+                debug.logMethod({
+                    name: 'Config.getDescriptor',
+                    params: arguments,
+                    url: serviceUrl,
+                    promise: promise
                 });
             }
 
@@ -33,8 +36,32 @@ define(['request_agent', '../config'], function(RA, CFG){
         }
     }
 
+    function getPlugins (containerName) {
+        var serviceUrl, promise;
+
+        if (typeof containerName === 'string' && !!containerName) {
+            serviceUrl = baseUrl + '/plugins/' + containerName;
+            promise = requestAgent.getJSON(serviceUrl);
+
+            if (DEBUG) {
+                debug.logMethod({
+                    name: 'Config.getPlugins',
+                    params: arguments,
+                    url: serviceUrl,
+                    promise: promise
+                });
+            }
+
+            return promise;
+
+        } else {
+            throw new Error('Incorrect value for container name');
+        }
+    }
+
     return {
-        getDescriptor: getDescriptor
+        getDescriptor: getDescriptor,
+        getPlugins: getPlugins
     };
 
 });
