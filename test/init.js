@@ -7,4 +7,9 @@ requirejs(['studioServices'], function(StudioServices) {
         console.log('Promise resolved with value: ', value);
     });
 
+    StudioServices.Config.getDescriptor('crafter.studio-ui.section.dashboard')
+        .then(function(descriptor){
+            console.log('Descriptor: ', descriptor);
+        });
+
 });
