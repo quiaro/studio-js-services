@@ -1,12 +1,19 @@
 
 requirejs(['studioServices'], function(StudioServices) {
 
-    StudioServices.Config.getDescriptor('crafter.studio-ui.section.dashboard')
+    var services = new StudioServices({
+            services: {
+                domain: '127.0.0.1',
+                port: '3000'
+            }
+        });
+
+    services.Config.getDescriptor('crafter.studio-ui.section.dashboard')
         .then(function(descriptor){
             console.log('Descriptor: ', descriptor);
         });
 
-    StudioServices.Config.getPlugins('activity')
+    services.Config.getPlugins('activity')
         .then(function(descriptor){
             console.log('Plugins: ', descriptor);
         });
