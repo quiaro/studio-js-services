@@ -7,11 +7,17 @@ define(['services/asset',
 
     'use strict';
 
-    return Object.freeze({
-        Asset: Asset,
-        Config: Config,
-        Template: Template,
-        Utils: Utils
-    });
+    return function(customConfig) {
+
+        var utils = new Utils(customConfig),
+            config = new Config(utils);
+
+        return Object.freeze({
+            Asset: Asset,
+            Config: config,
+            Template: Template,
+            Utils: utils
+        });
+    };
 
 });
