@@ -39,7 +39,8 @@ module.exports = function(grunt) {
 
         clean: {
             dev: '<%= cfg.output.dev %>',
-            build: ['<%= cfg.output.build %>', '<%= cfg.output.dist %>']
+            build: '<%= cfg.output.build %>',
+            dist: '<%= cfg.output.dist %>'
         },
 
         copy: {
@@ -218,16 +219,20 @@ module.exports = function(grunt) {
 
     grunt.registerTask('build',
         'Build the services library for production and test it against a server on localhost',
-        ['clean:build', 'lint', 'replace:build', 'copy:build', 'symlink:build',
-         'requirejs:dist', 'uglify:dist', 'open', 'connect:build:keepalive']);
+        ['clean:build', 'replace:build', 'copy:build', 'symlink:build',
+         'dist', 'open', 'connect:build:keepalive']);
+
+    grunt.registerTask('dist',
+        'Build the services library for production',
+        ['clean:dist', 'lint', 'requirejs:dist', 'uglify:dist']);
 
     grunt.registerTask('lint',
         'Run jshint on code',
         ['jshint:all']);
 
     grunt.registerTask('cl',
-        'Remove all folders from dev and build',
-        ['clean:dev', 'clean:build']);
+        'Remove all development and production folders',
+        ['clean:dev', 'clean:build', 'clean:dist']);
 
     grunt.registerTask('default', ['dev']);
 };
