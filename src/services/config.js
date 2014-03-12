@@ -1,13 +1,13 @@
 /* global define, DEBUG */
 
-define(['request_agent', '../config', '../debug'], function(requestAgent, CFG, debug){
+define(['request_agent', '../utils'], function(requestAgent, utils){
 
     'use strict';
 
-    var baseUrl = CFG.getBaseUrl() + '/config';
+    var baseUrl = utils.getBaseUrl() + '/config';
 
     if (DEBUG) {
-        debug.logService({
+        utils.logService({
             name: 'Config',
             url: baseUrl
         });
@@ -21,7 +21,7 @@ define(['request_agent', '../config', '../debug'], function(requestAgent, CFG, d
             promise = requestAgent.getJSON(serviceUrl);
 
             if (DEBUG) {
-                debug.logMethod({
+                utils.logMethod({
                     name: 'Config.getDescriptor',
                     params: arguments,
                     url: serviceUrl,
@@ -44,7 +44,7 @@ define(['request_agent', '../config', '../debug'], function(requestAgent, CFG, d
             promise = requestAgent.getJSON(serviceUrl);
 
             if (DEBUG) {
-                debug.logMethod({
+                utils.logMethod({
                     name: 'Config.getPlugins',
                     params: arguments,
                     url: serviceUrl,

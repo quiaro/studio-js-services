@@ -2,14 +2,16 @@
 
 define(['services/asset',
         'services/config',
-        'services/template'], function (Asset, Config, Template) {
+        'services/template',
+        'utils'], function (Asset, Config, Template, Utils) {
 
     'use strict';
 
     return Object.freeze({
         Asset: Asset,
         Config: Config,
-        Template: Template
+        Template: Template,
+        Utils: Utils
     });
 
 });

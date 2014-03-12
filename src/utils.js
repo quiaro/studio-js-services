@@ -1,8 +1,37 @@
 /* global define */
 
-define(function() {
+define(['config'], function(CFG) {
 
     'use strict';
+
+    var API = {};
+
+    function setSite(siteName) {
+
+        if (typeof siteName === 'string' && !!siteName) {
+            CFG.services.site = siteName;
+            return CFG.services.site;
+        } else {
+            throw new Error('Incorrect value for site name');
+        }
+    }
+
+    function getSite() {
+        return CFG.services.site;
+    }
+
+    function getBaseUrl() {
+        var path;
+
+        if (CFG.services.domain) {
+            path = [CFG.services.protocol, '://',
+                    CFG.services.domain, ':', CFG.services.port,
+                    '/', CFG.api.base, '/', CFG.api.version].join("");
+        } else {
+            path = ['/', CFG.api.base, '/', CFG.api.version].join("");
+        }
+        return path;
+    }
 
     function logService(service) {
         console.log(service.name + ' | base URL: ', service.url);
@@ -32,10 +61,16 @@ define(function() {
         }
     }
 
-    return {
-        logMethod: logMethod,
-        logService: logService
-    };
+    API.getSite = getSite;
+    API.getBaseUrl = getBaseUrl;
+    API.setSite = setSite;
 
+    if (DEBUG) {
+        // Expose debug methods
+        API.logMethod = logMethod;
+        API.logService = logService;
+    }
+
+    return API;
 });
 
