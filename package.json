@@ -3,7 +3,7 @@
   "title": "Crafter Studio Services",
   "description": "Javascript library for Crafter Studio REST services",
   "version": "0.1.0",
-  "main": "dist/services.js",
+  "main": "dist/studioServices.min.js",
   "author": {
     "name": "Crafter Software",
     "url": "http://craftercms.org"

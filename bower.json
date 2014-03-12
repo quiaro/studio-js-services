@@ -1,7 +1,7 @@
 {
     "name": "Crafter Studio Services",
     "version": "0.1.0",
-    "main": "dist/studioServices.js",
+    "main": "dist/studioServices.min.js",
     "ignore": [],
     "dependencies": {
         "request-agent": "~1.0.0"
