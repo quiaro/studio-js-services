@@ -225,5 +225,9 @@ module.exports = function(grunt) {
         'Run jshint on code',
         ['jshint:all']);
 
+    grunt.registerTask('cl',
+        'Remove all folders from dev and build',
+        ['clean:dev', 'clean:build']);
+
     grunt.registerTask('default', ['dev']);
 };
