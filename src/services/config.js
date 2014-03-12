@@ -14,7 +14,7 @@ define(['request_agent'], function(requestAgent){
                 url: this.baseUrl
             });
         }
-    }
+    };
 
     module.prototype.getDescriptor = function getDescriptor (moduleName) {
         var serviceUrl, promise;
@@ -37,7 +37,7 @@ define(['request_agent'], function(requestAgent){
         } else {
             throw new Error('Incorrect value for module name');
         }
-    }
+    };
 
     module.prototype.getPlugins = function getPlugins (containerName) {
         var serviceUrl, promise;
@@ -60,7 +60,7 @@ define(['request_agent'], function(requestAgent){
         } else {
             throw new Error('Incorrect value for container name');
         }
-    }
+    };
 
     return module;
 

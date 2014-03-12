@@ -1,6 +1,6 @@
 {
     "name": "studio-js-services",
-    "version": "0.1.1",
+    "version": "0.1.0",
     "main": "dist/studioServices.min.js",
     "ignore": [
         "**/.*",
