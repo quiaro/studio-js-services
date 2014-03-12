@@ -2,8 +2,8 @@
 
 define({
     services: {
-        domain: '127.0.0.1',
-        port: '3000',
+        domain: '',
+        port: '',
         protocol: 'http',
         site: ''
     },
