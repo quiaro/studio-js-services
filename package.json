@@ -2,7 +2,7 @@
   "name": "studio-js-services",
   "title": "Crafter Studio Services",
   "description": "Javascript library for Crafter Studio REST services",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "main": "dist/studioServices.min.js",
   "author": {
     "name": "Crafter Software",
