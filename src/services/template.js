@@ -4,12 +4,8 @@ define(function(){
 
     'use strict';
 
-    function find (y) {
-        console.log('Find called with y: ', y);
-    }
+    //TO-DO: Write constructor and methods following config service's example
 
-    return {
-        find: find
-    };
+    return {};
 
 });
