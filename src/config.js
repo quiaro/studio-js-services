@@ -4,7 +4,7 @@ define({
     services: {
         domain: '',
         port: '',
-        protocol: 'http',
+        protocol: 'http:',
         site: ''
     },
     api: {
