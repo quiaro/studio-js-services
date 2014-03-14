@@ -10,10 +10,11 @@ define(['services/asset',
     return function(customConfig) {
 
         var utils = new Utils(customConfig),
-            config = new Config(utils);
+            config = new Config(utils),
+            asset = new Asset(utils);
 
         return Object.freeze({
-            Asset: Asset,
+            Asset: asset,
             Config: config,
             Template: Template,
             Utils: utils
