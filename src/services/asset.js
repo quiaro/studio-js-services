@@ -126,6 +126,41 @@ define(['request_agent', '../config'], function(requestAgent, CFG){
         }
     };
 
+    /*
+     * @param itemId id of the asset to delete
+     * @return contents of the asset (content type varies)
+     */
+    module.prototype.delete = function delete (itemId) {
+        var siteName = this.utils.getSite(),
+            serviceUrl,
+            promise;
+
+        if (typeof itemId !== 'string' || !itemId) {
+            throw new Error('Incorrect value for itemId');
+
+        } else if (typeof siteName !== 'string') {
+            throw new Error('Incorrect value for site name');
+
+        } else if (!siteName) {
+            throw new Error('Site name has not been set');
+
+        } else {
+            serviceUrl = this.baseUrl + '/delete/' + siteName + '?item_id=' + itemId;
+            promise = requestAgent.post(serviceUrl);
+
+            if (DEBUG) {
+                this.utils.logMethod({
+                    name: 'Asset.delete',
+                    params: arguments,
+                    url: serviceUrl,
+                    promise: promise
+                });
+            }
+
+            return promise;
+        }
+    };
+
     return module;
 
 });
