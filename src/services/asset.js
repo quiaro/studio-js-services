@@ -130,7 +130,7 @@ define(['request_agent', '../config'], function(requestAgent, CFG){
      * @param itemId id of the asset to delete
      * @return contents of the asset (content type varies)
      */
-    module.prototype.delete = function delete (itemId) {
+    module.prototype.delete = function deleteFn (itemId) {
         var siteName = this.utils.getSite(),
             serviceUrl,
             promise;
