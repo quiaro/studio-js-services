@@ -12,17 +12,49 @@ define(['request_agent', 'config'], function(requestAgent, CFG) {
         }
     };
 
-    module.prototype.getBaseUrl = function getBaseUrl() {
-        var path;
+    /*
+     * @param override Object with properties to momentarily override
+              the default (this.config.services)
+     * @return base url to use with additional specific url service info
+     */
+    module.prototype.getBaseUrl = function getBaseUrl(override) {
+        var path = [],
 
-        if (this.config.services.domain) {
-            path = [this.config.services.protocol, '://',
-                    this.config.services.domain, ':', this.config.services.port,
-                    '/', this.config.api.base, '/', this.config.api.version].join('');
-        } else {
-            path = ['/', this.config.api.base, '/', this.config.api.version].join('');
+            // Better not assume that the window object exists
+            location = window && window.location || {},
+
+            protocol = override && override.protocol ||
+                        this.config.services.protocol || location.protocol,
+
+            domain = override && override.domain ||
+                        this.config.services.domain || location.hostname,
+
+            port = override && override.port;
+
+            // If
+            port = (port) ? port :
+                        (typeof this.config.services.port === 'undefined' ||
+                         typeof this.config.services.port === 'string' &&
+                            !isNaN(+this.config.services.port)) ? this.config.services.port :
+                                location.port;
+
+        if (protocol && domain) {
+            path.push(protocol);
+            path.push('//');
+            path.push(domain);
+
+            if (port) {
+                path.push(':');
+                path.push(port);
+            }
         }
-        return path;
+        path.push('/');
+        path.push(this.config.api.base);
+        path.push('/');
+        path.push(this.config.api.version);
+
+        return path.join('');
+
     };
 
     module.prototype.getSite = function getSite() {
