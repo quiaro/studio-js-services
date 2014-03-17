@@ -54,6 +54,11 @@ requirejs(['studioServices'], function(StudioServices) {
 
                             });
                     });
+
+                services.Asset.read(asset.id.itemId)
+                    .then(function(metadata) {
+                        console.log('Asset Metadata: ', metadata);
+                    });
             }
 
         });

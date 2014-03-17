@@ -102,11 +102,13 @@ define(['request_agent', 'config'], function(requestAgent, CFG) {
 
             if (method.promise) {
                 method.promise.done(function(result) {
+                    console.log('--------------------------------');
                     console.log('*** Request from ' + method.name);
                     console.log('*** URL: ' + method.url);
                     console.log('*** RESOLVED: ', result);
                 });
                 method.promise.fail(function(reason){
+                    console.log('--------------------------------');
                     console.log('*** Request from ' + method.name);
                     console.log('*** URL: ' + method.url);
                     console.error('*** FAILED: ', reason);

@@ -27,7 +27,6 @@ define(['request_agent', '../config'], function(requestAgent, CFG){
             promise,
             key;
 
-        // Set the field value to true, if the field is required
         fields = {
             parent_id: { required: true },
             file_name: { required: true },
@@ -129,7 +128,6 @@ define(['request_agent', '../config'], function(requestAgent, CFG){
 
     /*
      * @param itemId id of the asset to delete
-     * @return contents of the asset (content type varies)
      */
     module.prototype.delete = function deleteFn (itemId) {
         var siteName = this.utils.getSite(),
@@ -152,6 +150,41 @@ define(['request_agent', '../config'], function(requestAgent, CFG){
             if (DEBUG) {
                 this.utils.logMethod({
                     name: 'Asset.delete',
+                    params: arguments,
+                    url: serviceUrl,
+                    promise: promise
+                });
+            }
+
+            return promise;
+        }
+    };
+
+    /*
+     * @param itemId id of the asset to read
+     * @return assetMetadata metadata of an asset
+     */
+    module.prototype.read = function read (itemId) {
+        var siteName = this.utils.getSite(),
+            serviceUrl,
+            promise;
+
+        if (typeof itemId !== 'string' || !itemId) {
+            throw new Error('Incorrect value for itemId');
+
+        } else if (typeof siteName !== 'string') {
+            throw new Error('Incorrect value for site name');
+
+        } else if (!siteName) {
+            throw new Error('Site name has not been set');
+
+        } else {
+            serviceUrl = this.baseUrl + '/read/' + siteName + '?item_id=' + itemId;
+            promise = requestAgent.getJSON(serviceUrl);
+
+            if (DEBUG) {
+                this.utils.logMethod({
+                    name: 'Asset.read',
                     params: arguments,
                     url: serviceUrl,
                     promise: promise
