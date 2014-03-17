@@ -13,30 +13,32 @@ define(['request_agent', 'config'], function(requestAgent, CFG) {
     };
 
     /*
-     * @param override Object with properties to momentarily override
+     * @param overrideObj Object with properties to momentarily override
               the default (this.config.services)
      * @return base url to use with additional specific url service info
      */
-    module.prototype.getBaseUrl = function getBaseUrl(override) {
+
+    // TO-DO: Check cyclomatic complexity of this function so the js hint comment
+    //        can be removed
+    /*jshint -W074 */
+    module.prototype.getBaseUrl = function getBaseUrl(overrideObj) {
+
         var path = [],
+            override = overrideObj || {},
+            location, protocol, domain, port;
 
-            // Better not assume that the window object exists
-            location = window && window.location || {},
+        // Better not assume that the window object exists
+        location = window && window.location || {};
 
-            protocol = override && override.protocol ||
-                        this.config.services.protocol || location.protocol,
+        protocol = override.protocol || this.config.services.protocol || location.protocol;
 
-            domain = override && override.domain ||
-                        this.config.services.domain || location.hostname,
+        domain = override.domain || this.config.services.domain || location.hostname;
 
-            port = override && override.port;
-
-            // If
-            port = (port) ? port :
-                        (typeof this.config.services.port === 'undefined' ||
-                         typeof this.config.services.port === 'string' &&
-                            !isNaN(+this.config.services.port)) ? this.config.services.port :
-                                location.port;
+        port = (override.port) ? override.port :
+                    (typeof this.config.services.port === 'undefined' ||
+                     typeof this.config.services.port === 'string' &&
+                        !isNaN(+this.config.services.port)) ? this.config.services.port :
+                            location.port;
 
         if (protocol && domain) {
             path.push(protocol);
@@ -54,8 +56,8 @@ define(['request_agent', 'config'], function(requestAgent, CFG) {
         path.push(this.config.api.version);
 
         return path.join('');
-
     };
+    /*jshint +W074 */
 
     module.prototype.getSite = function getSite() {
         return this.config.services.site;
@@ -107,7 +109,7 @@ define(['request_agent', 'config'], function(requestAgent, CFG) {
                 method.promise.fail(function(reason){
                     console.log('*** Request from ' + method.name);
                     console.log('*** URL: ' + method.url);
-                    console.log('*** FAILED: ', reason);
+                    console.error('*** FAILED: ', reason);
                 });
             } else {
                 console.log('*** No promise for: ' + method.name);

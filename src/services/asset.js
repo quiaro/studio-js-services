@@ -1,4 +1,4 @@
-/* global define */
+/* global define, DEBUG */
 
 define(['request_agent', '../config'], function(requestAgent, CFG){
 
@@ -24,7 +24,8 @@ define(['request_agent', '../config'], function(requestAgent, CFG){
             formData = new FormData(),
             fields,
             serviceUrl,
-            promise;
+            promise,
+            key;
 
         // Set the field value to true, if the field is required
         fields = {
@@ -46,7 +47,7 @@ define(['request_agent', '../config'], function(requestAgent, CFG){
 
         } else {
 
-            for (var key in asset) {
+            for (key in asset) {
 
                 // Only process properties that we ask for
                 if (key in fields) {
@@ -63,7 +64,7 @@ define(['request_agent', '../config'], function(requestAgent, CFG){
             }
 
             // Make sure that all required fields were processed
-            for (var key in fields) {
+            for (key in fields) {
                 if (fields[key].required) {
                     throw new Error('Property \'' + fields[key] + '\' is required, but it is missing' );
                 }
