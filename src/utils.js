@@ -14,7 +14,7 @@ define(['request_agent', 'config'], function(requestAgent, CFG) {
 
     /*
      * @param overrideObj Object with properties to momentarily override
-              the default (this.config.services)
+              the default (this.config.server)
      * @return base url to use with additional specific url service info
      */
 
@@ -30,14 +30,14 @@ define(['request_agent', 'config'], function(requestAgent, CFG) {
         // Better not assume that the window object exists
         location = window && window.location || {};
 
-        protocol = override.protocol || this.config.services.protocol || location.protocol;
+        protocol = override.protocol || this.config.server.protocol || location.protocol;
 
-        domain = override.domain || this.config.services.domain || location.hostname;
+        domain = override.domain || this.config.server.domain || location.hostname;
 
         port = (override.port) ? override.port :
-                    (typeof this.config.services.port === 'undefined' ||
-                     typeof this.config.services.port === 'string' &&
-                        !isNaN(+this.config.services.port)) ? this.config.services.port :
+                    (typeof this.config.server.port === 'undefined' ||
+                     typeof this.config.server.port === 'string' &&
+                        !isNaN(+this.config.server.port)) ? this.config.server.port :
                             location.port;
 
         if (protocol && domain) {
@@ -60,7 +60,7 @@ define(['request_agent', 'config'], function(requestAgent, CFG) {
     /*jshint +W074 */
 
     module.prototype.getSite = function getSite() {
-        return this.config.services.site;
+        return this.config.site;
     };
 
     /*
@@ -80,8 +80,8 @@ define(['request_agent', 'config'], function(requestAgent, CFG) {
 
     module.prototype.setSite = function setSite(siteName) {
         if (typeof siteName === 'string' && !!siteName) {
-            this.config.services.site = siteName;
-            return this.config.services.site;
+            this.config.site = siteName;
+            return this.config.site;
         } else {
             throw new Error('Incorrect value for site name');
         }

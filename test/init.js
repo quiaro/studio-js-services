@@ -2,7 +2,7 @@
 requirejs(['studioServices'], function(StudioServices) {
 
     var services = new StudioServices({
-            services: {
+            server: {
                 domain: 'studio3.craftercms.org'
             },
             api: {

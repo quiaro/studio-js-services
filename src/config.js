@@ -1,12 +1,12 @@
 /* global define */
 
 define({
-    services: {
+    server: {
         domain: '',
         port: '',
-        protocol: 'http:',
-        site: ''
+        protocol: 'http:'
     },
+    site: '',
     api: {
         version: 1,
         base: 'api'
