@@ -1,6 +1,6 @@
 /* global define, DEBUG */
 
-define(['request_agent'], function(requestAgent){
+define(['request_agent', '../validation'], function(requestAgent, validation){
 
     'use strict';
 
@@ -19,47 +19,51 @@ define(['request_agent'], function(requestAgent){
     module.prototype.getDescriptor = function getDescriptor (moduleName) {
         var serviceUrl, promise;
 
-        if (typeof moduleName === 'string' && !!moduleName) {
-            serviceUrl = this.baseUrl + '/list/' + moduleName;
-            promise = requestAgent.getJSON(serviceUrl);
+        validation.validateParams([{
+            name: 'module name',
+            value: moduleName,
+            type: 'string',
+            required: true,
+            empty: false
+        }]);
 
-            if (DEBUG) {
-                this.utils.logMethod({
-                    name: 'Config.getDescriptor',
-                    params: arguments,
-                    url: serviceUrl,
-                    promise: promise
-                });
-            }
+        serviceUrl = this.baseUrl + '/list/' + moduleName;
+        promise = requestAgent.getJSON(serviceUrl);
 
-            return promise;
-
-        } else {
-            throw new Error('Incorrect value for module name');
+        if (DEBUG) {
+            this.utils.logMethod({
+                name: 'Config.getDescriptor',
+                url: serviceUrl,
+                promise: promise
+            });
         }
+
+        return promise;
     };
 
     module.prototype.getPlugins = function getPlugins (containerName) {
         var serviceUrl, promise;
 
-        if (typeof containerName === 'string' && !!containerName) {
-            serviceUrl = this.baseUrl + '/plugins/' + containerName;
-            promise = requestAgent.getJSON(serviceUrl);
+        validation.validateParams([{
+            name: 'module name',
+            value: moduleName,
+            type: 'string',
+            required: true,
+            empty: false
+        }]);
 
-            if (DEBUG) {
-                this.utils.logMethod({
-                    name: 'Config.getPlugins',
-                    params: arguments,
-                    url: serviceUrl,
-                    promise: promise
-                });
-            }
+        serviceUrl = this.baseUrl + '/plugins/' + containerName;
+        promise = requestAgent.getJSON(serviceUrl);
 
-            return promise;
-
-        } else {
-            throw new Error('Incorrect value for container name');
+        if (DEBUG) {
+            this.utils.logMethod({
+                name: 'Config.getPlugins',
+                url: serviceUrl,
+                promise: promise
+            });
         }
+
+        return promise;
     };
 
     return module;

@@ -1,6 +1,6 @@
 /* global define, DEBUG */
 
-define(['request_agent', '../config'], function(requestAgent, CFG){
+define(['request_agent', '../validation'], function(requestAgent, validation) {
 
     'use strict';
 
@@ -22,73 +22,78 @@ define(['request_agent', '../config'], function(requestAgent, CFG){
     module.prototype.create = function create (asset) {
         var siteName = this.utils.getSite(),
             formData = new FormData(),
-            fields,
+            params,
+            assetProperties,
             serviceUrl,
-            promise,
-            key;
+            promise;
 
-        fields = {
-            parent_id: { required: true },
-            file_name: { required: true },
-            file: { type: 'file',
-                    required: true },
-            mime_type: { required: true }
-        };
+        assetProperties = [{
+            id: 'parent_id',
+            name: 'property: parent_id',
+            type: 'string',
+            required: true
+        }, {
+            id: 'file_name',
+            name: 'property: file_name',
+            type: 'string',
+            required: true
+        }, {
+            id: 'file',
+            name: 'property: file',
+            type: 'file',
+            required: true
+        }, {
+            id: 'mime_type',
+            name: 'property: mime_type',
+            type: 'string',
+            required: true
+        }];
 
-        if (!requestAgent.isPlainObject(asset)) {
-            throw new Error('Incorrect asset value. Expecting an object.');
+        params = [{
+            name: 'site name',
+            value: siteName,
+            type: 'string',
+            required: true,
+            empty: false
+        }, {
+            name: 'asset',
+            value: asset,
+            type: 'object',
+            required: true,
+            properties: assetProperties
+        }];
 
-        } else if (typeof siteName !== 'string') {
-            throw new Error('Incorrect value for site name');
+        validation.validateParams(params);
 
-        } else if (!siteName) {
-            throw new Error('Site name has not been set');
+        assetProperties.forEach( function(propertyObj) {
 
-        } else {
+            var propId = propertyObj.id;
 
-            for (key in asset) {
-
-                // Only process properties that we ask for
-                if (key in fields) {
-
-                    if (fields[key].type === 'file') {
-                        formData.append(key, asset[key], asset[key].name);
-                    } else {
-                        formData.append(key, asset[key]);
-                    }
-
-                    // Do not process the field again
-                    delete fields[key];
-                }
+            if (propertyObj.type === 'file') {
+                formData.append(propId, asset[propId], asset[propId].name);
+            } else {
+                formData.append(propId, asset[propId]);
             }
+        });
 
-            // Make sure that all required fields were processed
-            for (key in fields) {
-                if (fields[key].required) {
-                    throw new Error('Property \'' + fields[key] + '\' is required, but it is missing' );
-                }
-            }
+        serviceUrl = this.baseUrl + '/create/' + siteName;
+        promise = requestAgent.ajax({
+            contentType: false,
+            data: formData,
+            processData: false,
+            type: 'POST',
+            url: serviceUrl
+        });
 
-            serviceUrl = this.baseUrl + '/create/' + siteName;
-            promise = requestAgent.ajax({
-                                            contentType: false,
-                                            data: formData,
-                                            processData: false,
-                                            type: 'POST',
-                                            url: serviceUrl
-                                        });
-
-            if (DEBUG) {
-                this.utils.logMethod({
-                    name: 'Asset.create',
-                    params: arguments,
-                    url: serviceUrl,
-                    promise: promise
-                });
-            }
-
-            return promise;
+        if (DEBUG) {
+            this.utils.logMethod({
+                name: 'Asset.create',
+                url: serviceUrl,
+                promise: promise
+            });
         }
+
+        return promise;
     };
 
     /*
@@ -100,30 +105,32 @@ define(['request_agent', '../config'], function(requestAgent, CFG){
             serviceUrl,
             promise;
 
-        if (typeof itemId !== 'string' || !itemId) {
-            throw new Error('Incorrect value for itemId');
+        validation.validateParams([{
+            name: 'site name',
+            value: siteName,
+            type: 'string',
+            required: true,
+            empty: false
+        }, {
+            name: 'itemId',
+            value: itemId,
+            type: 'string',
+            required: true,
+            empty: false
+        }]);
 
-        } else if (typeof siteName !== 'string') {
-            throw new Error('Incorrect value for site name');
+        serviceUrl = this.baseUrl + '/get_content/' + siteName + '?item_id=' + itemId;
+        promise = requestAgent.ajax(serviceUrl);
 
-        } else if (!siteName) {
-            throw new Error('Site name has not been set');
-
-        } else {
-            serviceUrl = this.baseUrl + '/get_content/' + siteName + '?item_id=' + itemId;
-            promise = requestAgent.ajax(serviceUrl);
-
-            if (DEBUG) {
-                this.utils.logMethod({
-                    name: 'Asset.getContent',
-                    params: arguments,
-                    url: serviceUrl,
-                    promise: promise
-                });
-            }
-
-            return promise;
+        if (DEBUG) {
+            this.utils.logMethod({
+                name: 'Asset.getContent',
+                url: serviceUrl,
+                promise: promise
+            });
         }
+
+        return promise;
     };
 
     /*
@@ -134,30 +141,32 @@ define(['request_agent', '../config'], function(requestAgent, CFG){
             serviceUrl,
             promise;
 
-        if (typeof itemId !== 'string' || !itemId) {
-            throw new Error('Incorrect value for itemId');
+        validation.validateParams([{
+            name: 'site name',
+            value: siteName,
+            type: 'string',
+            required: true,
+            empty: false
+        }, {
+            name: 'itemId',
+            value: itemId,
+            type: 'string',
+            required: true,
+            empty: false
+        }]);
 
-        } else if (typeof siteName !== 'string') {
-            throw new Error('Incorrect value for site name');
+        serviceUrl = this.baseUrl + '/delete/' + siteName + '?item_id=' + itemId;
+        promise = requestAgent.post(serviceUrl);
 
-        } else if (!siteName) {
-            throw new Error('Site name has not been set');
-
-        } else {
-            serviceUrl = this.baseUrl + '/delete/' + siteName + '?item_id=' + itemId;
-            promise = requestAgent.post(serviceUrl);
-
-            if (DEBUG) {
-                this.utils.logMethod({
-                    name: 'Asset.delete',
-                    params: arguments,
-                    url: serviceUrl,
-                    promise: promise
-                });
-            }
-
-            return promise;
+        if (DEBUG) {
+            this.utils.logMethod({
+                name: 'Asset.delete',
+                url: serviceUrl,
+                promise: promise
+            });
         }
+
+        return promise;
     };
 
     /*
@@ -169,30 +178,32 @@ define(['request_agent', '../config'], function(requestAgent, CFG){
             serviceUrl,
             promise;
 
-        if (typeof itemId !== 'string' || !itemId) {
-            throw new Error('Incorrect value for itemId');
+        validation.validateParams([{
+            name: 'site name',
+            value: siteName,
+            type: 'string',
+            required: true,
+            empty: false
+        }, {
+            name: 'itemId',
+            value: itemId,
+            type: 'string',
+            required: true,
+            empty: false
+        }]);
 
-        } else if (typeof siteName !== 'string') {
-            throw new Error('Incorrect value for site name');
+        serviceUrl = this.baseUrl + '/read/' + siteName + '?item_id=' + itemId;
+        promise = requestAgent.getJSON(serviceUrl);
 
-        } else if (!siteName) {
-            throw new Error('Site name has not been set');
-
-        } else {
-            serviceUrl = this.baseUrl + '/read/' + siteName + '?item_id=' + itemId;
-            promise = requestAgent.getJSON(serviceUrl);
-
-            if (DEBUG) {
-                this.utils.logMethod({
-                    name: 'Asset.read',
-                    params: arguments,
-                    url: serviceUrl,
-                    promise: promise
-                });
-            }
-
-            return promise;
+        if (DEBUG) {
+            this.utils.logMethod({
+                name: 'Asset.read',
+                url: serviceUrl,
+                promise: promise
+            });
         }
+
+        return promise;
     };
 
     return module;

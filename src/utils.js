@@ -96,9 +96,6 @@ define(['request_agent', 'config'], function(requestAgent, CFG) {
          * @param method : an object with the method properties (: name, arguments, url, promise)
          */
         module.prototype.logMethod = function logMethod(method) {
-            console.log('--------------------------------');
-            console.log('Calling ' + method.name + ' ...');
-            console.log('Params: ', method.params);
 
             if (method.promise) {
                 method.promise.done(function(result) {

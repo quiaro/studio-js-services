@@ -169,6 +169,11 @@ define(['request_agent', 'serviceError'], function(requestAgent, ServiceError) {
 
         if (Array.isArray(paramList)) {
 
+            if (DEBUG) {
+                console.info('Validate the following parameter list definition: ');
+                console.log(paramList);
+            }
+
             paramList.forEach( function(param) {
                 validateParam(param);
             });
