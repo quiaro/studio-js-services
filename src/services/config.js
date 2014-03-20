@@ -45,8 +45,8 @@ define(['request_agent', '../validation'], function(requestAgent, validation){
         var serviceUrl, promise;
 
         validation.validateParams([{
-            name: 'module name',
-            value: moduleName,
+            name: 'container name',
+            value: containerName,
             type: 'string',
             required: true,
             empty: false
