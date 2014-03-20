@@ -6,10 +6,10 @@ define(function(){
 
         return Object.create(Error.prototype, {
             type: {
-                value: data.type || "ServiceError"
+                value: data.type || "StudioJSServiceError"
             },
             name: {
-                value: "ServiceError"
+                value: "StudioJSServiceError"
             },
             message: {
                 value: data.message || ""
