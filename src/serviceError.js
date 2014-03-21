@@ -2,17 +2,19 @@
 
 define(function(){
 
+    'use strict';
+
     return function(data) {
 
         return Object.create(Error.prototype, {
             type: {
-                value: data.type || "StudioJSServiceError"
+                value: data.type || 'StudioJSServiceError'
             },
             name: {
-                value: "StudioJSServiceError"
+                value: 'StudioJSServiceError'
             },
             message: {
-                value: data.message || ""
+                value: data.message || ''
             }
         });
     };

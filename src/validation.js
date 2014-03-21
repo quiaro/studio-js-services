@@ -69,6 +69,8 @@ define(['request_agent', 'serviceError'], function(requestAgent, ServiceError) {
      *        - InvalidType
      *        - MissingData (should not apply to external users)
      */
+
+     // TO-DO: Reduce cyclomatic complexity of this function
     function validateParam(param) {
 
         // Create shortcuts
@@ -157,7 +159,7 @@ define(['request_agent', 'serviceError'], function(requestAgent, ServiceError) {
                 message: 'Incorrect value for param -expecting an object'
             });
         }
-    };
+    }
 
     /*
      * Validate a list of parameters
@@ -185,7 +187,7 @@ define(['request_agent', 'serviceError'], function(requestAgent, ServiceError) {
                 message: 'Incorrect value for paramList -expecting an array'
             });
         }
-    };
+    }
 
     return {
         validateObject: validateObject,
