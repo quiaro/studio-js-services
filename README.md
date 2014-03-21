@@ -20,11 +20,11 @@ There are a couple of ways of getting Studio JS Services
 
 ## Usage
 
-In order to use Studio JS Services, the library can be loaded as an AMD module or else a variable named `StudioServices` will be attached to the Crafter namespace under the global namespace (i.e. window, in the case of browsers).  
+In order to use Studio JS Services, the library can be loaded as an AMD module or else a property named `StudioServices` will be attached to the object `Crafter` under the global namespace (i.e. window, in the case of browsers).  
 
-### Global Variable
+### Global Property
 
-If you do not wish to load Studio JS Services as an AMD module, a variable named `StudioServices` is created under the Crafter namespace.
+If you do not wish to load Studio JS Services as an AMD module, a property named `StudioServices` is created and attached to the object `Crafter` in the global namespace.
 
 Here is the body of a fictitious index.html page that includes the Studio JS Services library and creates an instance of it:
 
