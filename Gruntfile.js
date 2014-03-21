@@ -9,23 +9,44 @@ module.exports = function(grunt) {
     // load all grunt tasks
     require('matchdep').filterDev('grunt-*').forEach(grunt.loadNpmTasks);
 
+    function getBannerFromBuffer( bannerBuffer ) {
+
+        var pkg = grunt.file.readJSON('package.json'),
+            banner;
+
+        banner = bannerBuffer.replace(/@@YEAR/, grunt.template.today('yyyy'));
+        return banner.replace(/@@VERSION/, pkg.version);
+    }
+
+    function getBannerFromFile( bannerFile ) {
+
+        var bannerBuffer = grunt.file.read(bannerFile);
+        return getBannerFromBuffer(bannerBuffer);
+    }
+
     // configurable paths
     var config = {
-        output: {
-            dev: 'dev',
-            build: 'build',
-            dist: 'dist'
+            output: {
+                dev: 'dev',
+                build: 'build',
+                dist: 'dist',
+                temp: 'temp'
+            },
+            root: '.',
+            path: {
+                src: '/src',
+                lib: '/lib',
+                test: '/test'
+            },
+            banner: 'banner.prefix'
         },
-        root: '.',
-        path: {
-            src: '/src',
-            lib: '/lib',
-            test: '/test'
-        }
-    };
+
+        // Banner template file
+        bannerTpl = config.root + config.path.src + '/' + config.banner;
 
     grunt.initConfig({
         cfg: config,
+        pkg: grunt.file.readJSON('package.json'),
 
         bower: {
             install: {
@@ -40,7 +61,8 @@ module.exports = function(grunt) {
         clean: {
             dev: '<%= cfg.output.dev %>',
             build: '<%= cfg.output.build %>',
-            dist: '<%= cfg.output.dist %>'
+            dist: '<%= cfg.output.dist %>',
+            temp: '<%= cfg.output.temp %>'
         },
 
         copy: {
@@ -59,6 +81,15 @@ module.exports = function(grunt) {
                     src: '{,*/}*.js',
                     dest: '<%= cfg.output.build %>'
                 }]
+            },
+            dist: {
+                options: {
+                    process: function (content, srcpath) {
+                        return getBannerFromBuffer(content);
+                    }
+                },
+                src: '<%= cfg.root %><%= cfg.path.src %>/<%= cfg.banner %>',
+                dest: '<%= cfg.output.temp %>/<%= cfg.banner %>'
             }
         },
 
@@ -137,15 +168,21 @@ module.exports = function(grunt) {
                 options: {
                     baseUrl: '<%= cfg.root %><%= cfg.path.src %>/',
                     generateSourceMaps: false,
-                    name: 'studioServices',
+                    name: 'almond',
+                    include: ['studioServices'],
                     optimize: 'none',
                     out: '<%= cfg.output.dist %>/studioServices.js',
                     paths: {
+                        almond: '../lib/almond/js/almond',
                         request_agent: '../lib/request-agent/js/request-agent'
                     },
                     preserveLicenseComments: false,
                     useStrict: true,
-                    wrap: false
+                    wrap: {
+                        startFile: ['<%= cfg.output.temp %>/<%= cfg.banner %>',
+                                    '<%= cfg.root %><%= cfg.path.src %>/intro.prefix'],
+                        endFile: ['<%= cfg.root %><%= cfg.path.src %>/outro.suffix']
+                    }
                 }
             }
         },
@@ -177,7 +214,8 @@ module.exports = function(grunt) {
                     global_defs: {
                         DEBUG: false
                     }
-                }
+                },
+                banner: getBannerFromFile(bannerTpl)
             },
             dist: {
                 files: {
@@ -224,7 +262,7 @@ module.exports = function(grunt) {
 
     grunt.registerTask('dist',
         'Build the services library for production',
-        ['clean:dist', 'lint', 'requirejs:dist', 'uglify:dist']);
+        ['clean:dist', 'clean:temp', 'lint', 'copy:dist', 'requirejs:dist', 'uglify:dist']);
 
     grunt.registerTask('lint',
         'Run jshint on code',
@@ -232,7 +270,7 @@ module.exports = function(grunt) {
 
     grunt.registerTask('cl',
         'Remove all development and production folders',
-        ['clean:dev', 'clean:build', 'clean:dist']);
+        ['clean:dev', 'clean:build', 'clean:dist', 'clean:temp']);
 
     grunt.registerTask('default', ['dev']);
 };
