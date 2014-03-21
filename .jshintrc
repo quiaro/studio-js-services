@@ -16,9 +16,10 @@
   "trailing": true,
   "maxparams": 7,
   "maxdepth": 4,
-  "maxcomplexity": 10,
+  "maxcomplexity": 20,
   "maxlen": 120,
 
+  "expr": true,
   "browser": true,
   "node": true,
   "jquery": true,
