@@ -113,8 +113,7 @@ module.exports = function(grunt) {
                 options: {
                     middleware: function (connect) {
                         return [
-                            mountFolder(connect, config.output.build),
-                            mountFolder(connect, config.output.dist)
+                            mountFolder(connect, config.output.build)
                         ];
                     }
                 }
@@ -140,7 +139,7 @@ module.exports = function(grunt) {
         replace: {
             options: {
                 variables: {
-                    'main_path': '',
+                    'main_path': 'dist/',
                     'min': '.min',
                     'debug': false
                 }
@@ -201,6 +200,9 @@ module.exports = function(grunt) {
                 files: [{
                     src: '<%= cfg.root %><%= cfg.path.lib %>',
                     dest: '<%= cfg.output.build %><%= cfg.path.lib %>'
+                }, {
+                    src: '<%= cfg.output.dist %>',
+                    dest: '<%= cfg.output.build %>/<%= cfg.output.dist %>'
                 }]
             }
         },
@@ -257,8 +259,8 @@ module.exports = function(grunt) {
 
     grunt.registerTask('build',
         'Build the services library for production and test it against a server on localhost',
-        ['clean:build', 'replace:build', 'copy:build', 'symlink:build',
-         'dist', 'open', 'connect:build:keepalive']);
+        ['clean:build', 'replace:build', 'copy:build',
+         'dist', 'symlink:build', 'open', 'connect:build:keepalive']);
 
     grunt.registerTask('dist',
         'Build the services library for production',
