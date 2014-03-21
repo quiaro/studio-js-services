@@ -9,7 +9,7 @@ Studio JS Services intends to simplify interaction with Crafter Studio's REST AP
 * Avoid dependencies on Crafter Studio services URIs
 * Simplify the generation of requests to Crafter Studio services by providing an abstraction level
 * Keep requests to Crafter Studio services easier to read and maintain by providing a [promise-like API](http://api.jquery.com/category/deferred-object/)
-* Encapsulation -[AMD](https://github.com/amdjs/amdjs-api/wiki/AMD) Module
+* [AMD](https://github.com/amdjs/amdjs-api/wiki/AMD) Support
 
 ## Getting Studio JS Services
 
@@ -20,7 +20,30 @@ There are a couple of ways of getting Studio JS Services
 
 ## Usage
 
-Being an AMD module, you will need [require.js](http://requirejs.org/docs/download.html#requirejs) to load Studio JS Services into your app.
+In order to use Studio JS Services, the library can be loaded as an AMD module or else a variable named `StudioServices` will be attached to the Crafter namespace under the global namespace (i.e. window, in the case of browsers).  
+
+### Global Variable
+
+If you do not wish to load Studio JS Services as an AMD module, a variable named `StudioServices` is created under the Crafter namespace.
+
+Here is the body of a fictitious index.html page that includes the Studio JS Services library and creates an instance of it:
+
+    <body>
+        <div>My Test Page</div>
+        
+        // Include the minified version of the library
+        <script src="studioServices.min.js"></script>
+
+        <script>
+        // Create an instance of Studio JS Services
+        var services = new Crafter.StudioServices();
+
+        </script>
+    </body>
+
+### AMD Module
+
+To load Studio JS Services as an AMD module, you will need [require.js](http://requirejs.org/docs/download.html#requirejs).
 
 Here is the body of a fictitious index.html page that includes Studio JS Services: 
 
@@ -37,13 +60,13 @@ Here is the body of a fictitious index.html page that includes Studio JS Service
         <script src="myapp.js"></script>
     </body>
 
-This example saves in `studioServices` a reference to the minified version of Studio JS Services.
+This example saves in `studioServices` a reference to the minified version of the library.
 
 Then, in `myapp.js`, we load the services using `requirejs`:
 
     requirejs(['studioServices'], function( StudioServices ) {
-        // Here we now have access to the StudioServices constructor
 
+        // We now have access to the StudioServices constructor
         // Create an instance of Studio JS Services with the default configuration
         var services = new StudioServices(); 
 
@@ -57,7 +80,7 @@ Then, in `myapp.js`, we load the services using `requirejs`:
         });  
     }
 
-### Configuration
+## Configuration
 
 Default configuration for Studio JS Services is the following:
 
@@ -90,7 +113,7 @@ Requests from Studio JS Services will then have the following base URL:
 
     http://my-crafter-services.org/studio-server/api/1/
 
-### API
+## API
 
 Studio JS Services has an API that logically matches all of the services exposed by Crafter Studio's [REST API](http://studio3.craftercms.org/studio-server/rest-api-doc). This means that for each REST service there is a corresponding Javascript method with the same name (in camel case). In Studio JS Services, these javascript methods are grouped into objects, each one named after a Crafter Studio resource. The following table summarizes this correspondence between REST services and Javascript methods:  
 
@@ -151,7 +174,7 @@ This means that in order to use the get_content service using Studio JS Services
     // Use the get_content service by calling its corresponding method
     services.Asset.getContent('asset-id-12345');
 
-### StudioJSServiceError
+## Error Handling & Debugging
 
 If anything goes wrong while accessing any of the services, Studio JS Services will throw a custom error named `StudioJSServiceError`. To recover from this kind of error, you can write a try/catch clause, such as:
 
