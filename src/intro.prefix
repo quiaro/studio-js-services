@@ -7,8 +7,9 @@
         define([], factory);
     } else {
         // Browser globals case. Assign the result to a
-        // global variable.
-        root.StudioServices = factory();
+        // global variable under the company namespace
+        root.Crafter = root.Crafter || {};
+        root.Crafter.StudioServices = factory();
     }
 }(this, function () {
 
