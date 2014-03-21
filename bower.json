@@ -14,13 +14,17 @@
     "dependencies": {},
     "devDependencies": {
         "request-agent": "~1.0.0",
-        "requirejs": "2.1.11"
+        "requirejs": "2.1.11",
+        "almond": "0.2.9"
     },
     "exportsOverride": {
         "request-agent": {
             "js": "./dist/*.{js,map}"
         },
         "requirejs": {
+            "js": "*.js"
+        },
+        "almond": {
             "js": "*.js"
         }
     }
