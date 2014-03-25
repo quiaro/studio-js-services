@@ -43,21 +43,41 @@ requirejs(['studioServices'], function(StudioServices) {
                     .then(function(content){
                         console.log('Asset Content: ', content);
 
-                        services.Asset.delete(asset.id.itemId)
-                            .then(function(){
-                                console.log('Asset Deleted');
+                        blob = new Blob(["Bonjour monde!"], { type: "text/plain" });
 
-                                // TO-DO: Verify that the asset was deleted
-                                // services.Asset.getContent(asset.id.itemId)
-                                //     .then(function(content){
-                                //         console.log('Asset Content: ', content);
+                        services.Asset.update({
+                            item_id: asset.id.itemId,
+                            file: blob
+                        }).then(function(asset){
+                            console.log('Asset Content Updated: ', asset);
 
-                            });
+                            services.Asset.readText(asset.id.itemId)
+                                .then(function(text) {
+                                    console.log('Asset ReadText: ', text);
+
+                                    services.Asset.delete(asset.id.itemId)
+                                        .then(function(){
+                                            console.log('Asset Deleted');
+
+                                            // TO-DO: Verify that the asset was deleted
+                                            // services.Asset.read(asset.id.itemId)
+                                            // .then(function(metadata) {
+                                            //     console.log('Asset Read: ', metadata);
+                                            // });
+
+                                        });
+                                });
+                        })
                     });
 
                 services.Asset.read(asset.id.itemId)
                     .then(function(metadata) {
-                        console.log('Asset Metadata: ', metadata);
+                        console.log('Asset Read: ', metadata);
+                    });
+
+                services.Asset.readText(asset.id.itemId)
+                    .then(function(text) {
+                        console.log('Asset ReadText: ', text);
                     });
             }
 
