@@ -50,6 +50,32 @@ define(['request_agent', 'serviceError'], function(requestAgent, ServiceError) {
         }
     }
 
+    function checkRequired(param) {
+
+        var value = param.value,
+            required = param.required,
+            empty = (typeof param.empty === 'boolean') ? param.empty : true;
+
+        if (required) {
+
+            if (typeof value === 'undefined' || value === null) {
+
+                throw new ServiceError({
+                    type: 'MissingField',
+                    message: param.name + ' is required, but it is null or undefined'
+                });
+
+            } else if (!empty && typeof value === 'string' && !value) {
+
+                throw new ServiceError({
+                    type: 'MissingField',
+                    message: param.name + ' is required, but it is an empty string'
+                });
+
+            }
+        }
+    }
+
     /*
      * @param param parameter object of the form:
      *   {
@@ -74,82 +100,70 @@ define(['request_agent', 'serviceError'], function(requestAgent, ServiceError) {
     function validateParam(param) {
 
         // Create shortcuts
-        var value, required, type, empty;
+        var value;
 
         if (param && requestAgent.isPlainObject(param)) {
 
-            value = param.value,
-            required = param.required,
-            type = param.type,
-            empty = (typeof param.empty === 'boolean') ? param.empty : true;
+            value = param.value;
 
-            if (required) {
+            // Check required fields
+            checkRequired(param);
 
-                if (typeof value === 'undefined' || value === null) {
+            // Only check the type of fields that have a value
+            if (typeof value !== 'undefined') {
 
-                    throw new ServiceError({
-                        type: 'MissingField',
-                        message: param.name + ' is required, but it is null or undefined'
-                    });
+                switch (param.type) {
+                    case 'string':
+                        if (typeof value !== 'string') {
 
-                } else if (!empty && typeof value === 'string' && !value) {
+                            throw new ServiceError({
+                                type: 'InvalidType',
+                                message: 'Incorrect value for ' + param.name + ' -expecting a string'
+                            });
+                        } break;
 
-                    throw new ServiceError({
-                        type: 'MissingField',
-                        message: param.name + ' is required, but it is an empty string'
-                    });
+                    case 'number':
+                        if (!requestAgent.isNumeric(value)) {
 
+                            throw new ServiceError({
+                                type: 'InvalidType',
+                                message: 'Incorrect value for ' + param.name + ' -expecting a number'
+                            });
+                        } break;
+
+                    case 'object':
+                        if (!requestAgent.isPlainObject(value)) {
+
+                            throw new ServiceError({
+                                type: 'InvalidType',
+                                message: 'Incorrect value for ' + param.name + ' -expecting an object'
+                            });
+
+                        } else {
+                            if (param.properties) {
+                                // Validate its properties only if there are rules defined for these
+                                validateObject(value, param.properties);
+                            }
+                        } break;
+
+                    case 'array':
+                        if (!Array.isArray(value)) {
+
+                            throw new ServiceError({
+                                type: 'InvalidType',
+                                message: 'Incorrect value for ' + param.name + ' -expecting an array'
+                            });
+                        } break;
+
+                    case 'function':
+                        if (!requestAgent.isFunction(value)) {
+
+                            throw new ServiceError({
+                                type: 'InvalidType',
+                                message: 'Incorrect value for ' + param.name + ' -expecting a function'
+                            });
+                        } break;
                 }
-            }
-
-            switch (type) {
-                case 'string':
-                    if (typeof value !== 'string') {
-
-                        throw new ServiceError({
-                            type: 'InvalidType',
-                            message: 'Incorrect value for ' + param.name + ' -expecting a string'
-                        });
-                    } break;
-
-                case 'number':
-                    if (!requestAgent.isNumeric(value)) {
-
-                        throw new ServiceError({
-                            type: 'InvalidType',
-                            message: 'Incorrect value for ' + param.name + ' -expecting a number'
-                        });
-                    } break;
-
-                case 'object':
-                    if (!requestAgent.isPlainObject(value)) {
-
-                        throw new ServiceError({
-                            type: 'InvalidType',
-                            message: 'Incorrect value for ' + param.name + ' -expecting an object'
-                        });
-
-                    } else {
-                        validateObject(value, param.properties);
-                    } break;
-
-                case 'array':
-                    if (!Array.isArray(value)) {
-
-                        throw new ServiceError({
-                            type: 'InvalidType',
-                            message: 'Incorrect value for ' + param.name + ' -expecting an array'
-                        });
-                    } break;
-
-                case 'function':
-                    if (!requestAgent.isFunction(value)) {
-
-                        throw new ServiceError({
-                            type: 'InvalidType',
-                            message: 'Incorrect value for ' + param.name + ' -expecting a function'
-                        });
-                    } break;
             }
 
         } else {
