@@ -5,12 +5,13 @@ define(['request_agent', '../validation'], function(requestAgent, validation) {
     'use strict';
 
     var module = function (utils) {
+        this.name = 'Asset';
         this.utils = utils;
         this.baseUrl = utils.getBaseUrl() + '/content/asset';
 
         if (DEBUG) {
             this.utils.logService({
-                name: 'Asset',
+                name: this.name,
                 url: this.baseUrl
             });
         }
@@ -87,7 +88,7 @@ define(['request_agent', '../validation'], function(requestAgent, validation) {
 
         if (DEBUG) {
             this.utils.logMethod({
-                name: 'Asset.create',
+                name: this.name + '.create',
                 url: serviceUrl,
                 promise: promise
             });
@@ -124,7 +125,7 @@ define(['request_agent', '../validation'], function(requestAgent, validation) {
 
         if (DEBUG) {
             this.utils.logMethod({
-                name: 'Asset.getContent',
+                name: this.name + '.getContent',
                 url: serviceUrl,
                 promise: promise
             });
@@ -155,12 +156,12 @@ define(['request_agent', '../validation'], function(requestAgent, validation) {
             empty: false
         }]);
 
-        serviceUrl = this.baseUrl + '/delete/' + siteName + '?item_id=' + itemId;
-        promise = requestAgent.post(serviceUrl);
+        serviceUrl = this.baseUrl + '/delete/' + siteName;
+        promise = requestAgent.post(serviceUrl, { item_id: itemId });
 
         if (DEBUG) {
             this.utils.logMethod({
-                name: 'Asset.delete',
+                name: this.name + '.delete',
                 url: serviceUrl,
                 promise: promise
             });
@@ -196,7 +197,7 @@ define(['request_agent', '../validation'], function(requestAgent, validation) {
 
         if (DEBUG) {
             this.utils.logMethod({
-                name: 'Asset.find',
+                name: this.name + '.find',
                 url: serviceUrl,
                 promise: promise
             });
@@ -233,7 +234,7 @@ define(['request_agent', '../validation'], function(requestAgent, validation) {
 
         if (DEBUG) {
             this.utils.logMethod({
-                name: 'Asset.read',
+                name: this.name + '.read',
                 url: serviceUrl,
                 promise: promise
             });
@@ -270,7 +271,7 @@ define(['request_agent', '../validation'], function(requestAgent, validation) {
 
         if (DEBUG) {
             this.utils.logMethod({
-                name: 'Asset.readText',
+                name: this.name + '.readText',
                 url: serviceUrl,
                 promise: promise
             });
@@ -340,7 +341,7 @@ define(['request_agent', '../validation'], function(requestAgent, validation) {
 
         if (DEBUG) {
             this.utils.logMethod({
-                name: 'Asset.update',
+                name: this.name + '.update',
                 url: serviceUrl,
                 promise: promise
             });

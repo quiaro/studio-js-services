@@ -5,12 +5,13 @@ define(['request_agent', '../validation'], function(requestAgent, validation) {
     'use strict';
 
     var module = function (utils) {
+        this.name = 'Template';
         this.utils = utils;
         this.baseUrl = utils.getBaseUrl() + '/template';
 
         if (DEBUG) {
             this.utils.logService({
-                name: 'Template',
+                name: this.name,
                 url: this.baseUrl
             });
         }
@@ -104,7 +105,7 @@ define(['request_agent', '../validation'], function(requestAgent, validation) {
 
         if (DEBUG) {
             this.utils.logMethod({
-                name: 'Template.create',
+                name: this.name + '.create',
                 url: serviceUrl,
                 promise: promise
             });
@@ -140,7 +141,7 @@ define(['request_agent', '../validation'], function(requestAgent, validation) {
 
         if (DEBUG) {
             this.utils.logMethod({
-                name: 'Template.delete',
+                name: this.name + '.delete',
                 url: serviceUrl,
                 promise: promise
             });
@@ -199,7 +200,7 @@ define(['request_agent', '../validation'], function(requestAgent, validation) {
 
         if (DEBUG) {
             this.utils.logMethod({
-                name: 'Template.duplicate',
+                name: this.name + '.duplicate',
                 url: serviceUrl,
                 promise: promise
             });
@@ -258,7 +259,7 @@ define(['request_agent', '../validation'], function(requestAgent, validation) {
 
         if (DEBUG) {
             this.utils.logMethod({
-                name: 'Template.move',
+                name: this.name + '.move',
                 url: serviceUrl,
                 promise: promise
             });
@@ -295,7 +296,7 @@ define(['request_agent', '../validation'], function(requestAgent, validation) {
 
         if (DEBUG) {
             this.utils.logMethod({
-                name: 'Template.read',
+                name: this.name + '.read',
                 url: serviceUrl,
                 promise: promise
             });
@@ -332,7 +333,7 @@ define(['request_agent', '../validation'], function(requestAgent, validation) {
 
         if (DEBUG) {
             this.utils.logMethod({
-                name: 'Template.readText',
+                name: this.name + '.readText',
                 url: serviceUrl,
                 promise: promise
             });
@@ -424,7 +425,7 @@ define(['request_agent', '../validation'], function(requestAgent, validation) {
 
         if (DEBUG) {
             this.utils.logMethod({
-                name: 'Template.update',
+                name: this.name + '.update',
                 url: serviceUrl,
                 promise: promise
             });

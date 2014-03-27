@@ -5,12 +5,13 @@ define(['request_agent', '../validation'], function(requestAgent, validation){
     'use strict';
 
     var module = function (utils) {
+        this.name = 'Config';
         this.utils = utils;
         this.baseUrl = utils.getBaseUrl() + '/config';
 
         if (DEBUG) {
             this.utils.logService({
-                name: 'Config',
+                name: this.name,
                 url: this.baseUrl
             });
         }
@@ -32,7 +33,7 @@ define(['request_agent', '../validation'], function(requestAgent, validation){
 
         if (DEBUG) {
             this.utils.logMethod({
-                name: 'Config.getDescriptor',
+                name: this.name + '.getDescriptor',
                 url: serviceUrl,
                 promise: promise
             });
@@ -57,7 +58,7 @@ define(['request_agent', '../validation'], function(requestAgent, validation){
 
         if (DEBUG) {
             this.utils.logMethod({
-                name: 'Config.getPlugins',
+                name: this.name + '.getPlugins',
                 url: serviceUrl,
                 promise: promise
             });

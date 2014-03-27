@@ -5,12 +5,13 @@ define(['request_agent', '../validation'], function(requestAgent, validation) {
     'use strict';
 
     var module = function (utils) {
+        this.name = 'Descriptor';
         this.utils = utils;
         this.baseUrl = utils.getBaseUrl() + '/descriptor';
 
         if (DEBUG) {
             this.utils.logService({
-                name: 'Descriptor',
+                name: this.name,
                 url: this.baseUrl
             });
         }
@@ -109,7 +110,7 @@ define(['request_agent', '../validation'], function(requestAgent, validation) {
 
         if (DEBUG) {
             this.utils.logMethod({
-                name: 'Descriptor.create',
+                name: this.name + '.create',
                 url: serviceUrl,
                 promise: promise
             });
@@ -145,7 +146,7 @@ define(['request_agent', '../validation'], function(requestAgent, validation) {
 
         if (DEBUG) {
             this.utils.logMethod({
-                name: 'Descriptor.delete',
+                name: this.name + '.delete',
                 url: serviceUrl,
                 promise: promise
             });
@@ -204,7 +205,7 @@ define(['request_agent', '../validation'], function(requestAgent, validation) {
 
         if (DEBUG) {
             this.utils.logMethod({
-                name: 'Descriptor.duplicate',
+                name: this.name + '.duplicate',
                 url: serviceUrl,
                 promise: promise
             });
@@ -263,7 +264,7 @@ define(['request_agent', '../validation'], function(requestAgent, validation) {
 
         if (DEBUG) {
             this.utils.logMethod({
-                name: 'Descriptor.move',
+                name: this.name + '.move',
                 url: serviceUrl,
                 promise: promise
             });
@@ -300,7 +301,7 @@ define(['request_agent', '../validation'], function(requestAgent, validation) {
 
         if (DEBUG) {
             this.utils.logMethod({
-                name: 'Descriptor.read',
+                name: this.name + '.read',
                 url: serviceUrl,
                 promise: promise
             });
@@ -337,7 +338,7 @@ define(['request_agent', '../validation'], function(requestAgent, validation) {
 
         if (DEBUG) {
             this.utils.logMethod({
-                name: 'Descriptor.readText',
+                name: this.name + '.readText',
                 url: serviceUrl,
                 promise: promise
             });
@@ -429,7 +430,7 @@ define(['request_agent', '../validation'], function(requestAgent, validation) {
 
         if (DEBUG) {
             this.utils.logMethod({
-                name: 'Descriptor.update',
+                name: this.name + '.update',
                 url: serviceUrl,
                 promise: promise
             });
