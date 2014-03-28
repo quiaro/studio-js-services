@@ -25,7 +25,7 @@ define(['request_agent', '../validation'], function(requestAgent, validation) {
             formData,
             params,
             templateProperties,
-            serviceUrl,
+            serviceUrl = this.baseUrl + '/create/' + siteName,
             promise;
 
         templateProperties = [{
@@ -79,6 +79,14 @@ define(['request_agent', '../validation'], function(requestAgent, validation) {
                 }
             });
 
+            promise = requestAgent.ajax({
+                contentType: false,
+                data: formData,
+                processData: false,
+                type: 'POST',
+                url: serviceUrl
+            });
+
         } else {
             // Create new template from inline content
             templateProperties.push({
@@ -91,17 +99,8 @@ define(['request_agent', '../validation'], function(requestAgent, validation) {
 
             validation.validateParams(params);
 
-            formData = template;
+            promise = requestAgent.post(serviceUrl, template);
         }
-
-        serviceUrl = this.baseUrl + '/create/' + siteName;
-        promise = requestAgent.ajax({
-            contentType: false,
-            data: formData,
-            processData: false,
-            type: 'POST',
-            url: serviceUrl
-        });
 
         if (DEBUG) {
             this.utils.logMethod({
@@ -350,7 +349,7 @@ define(['request_agent', '../validation'], function(requestAgent, validation) {
             formData,
             params,
             templateProperties,
-            serviceUrl,
+            serviceUrl = this.baseUrl + '/update/' + siteName,
             promise;
 
         templateProperties = [{
@@ -399,6 +398,14 @@ define(['request_agent', '../validation'], function(requestAgent, validation) {
                 }
             });
 
+            promise = requestAgent.ajax({
+                contentType: false,
+                data: formData,
+                processData: false,
+                type: 'POST',
+                url: serviceUrl
+            });
+
         } else {
             // Update new template from inline content
             templateProperties.push({
@@ -411,17 +418,8 @@ define(['request_agent', '../validation'], function(requestAgent, validation) {
 
             validation.validateParams(params);
 
-            formData = template;
+            promise = requestAgent.post(serviceUrl, template);
         }
-
-        serviceUrl = this.baseUrl + '/update/' + siteName;
-        promise = requestAgent.ajax({
-            contentType: false,
-            data: formData,
-            processData: false,
-            type: 'POST',
-            url: serviceUrl
-        });
 
         if (DEBUG) {
             this.utils.logMethod({
