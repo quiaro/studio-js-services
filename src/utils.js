@@ -35,7 +35,7 @@ define(['request_agent', 'config'], function(requestAgent, CFG) {
         domain = override.domain || this.config.server.domain || location.hostname;
 
         port = (override.port) ? override.port :
-                    (typeof this.config.server.port === 'undefined' ||
+                    (typeof this.config.server.port === 'number' ||
                      typeof this.config.server.port === 'string' &&
                         !isNaN(+this.config.server.port)) ? this.config.server.port :
                             location.port;
