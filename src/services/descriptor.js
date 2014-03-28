@@ -25,7 +25,7 @@ define(['request_agent', '../validation'], function(requestAgent, validation) {
             formData,
             params,
             descriptorProperties,
-            serviceUrl,
+            serviceUrl = this.baseUrl + '/create/' + siteName,
             promise;
 
         descriptorProperties = [{
@@ -84,6 +84,14 @@ define(['request_agent', '../validation'], function(requestAgent, validation) {
                 }
             });
 
+            promise = requestAgent.ajax({
+                contentType: false,
+                data: formData,
+                processData: false,
+                type: 'POST',
+                url: serviceUrl
+            });
+
         } else {
             // Create new descriptor from inline content
             descriptorProperties.push({
@@ -96,17 +104,8 @@ define(['request_agent', '../validation'], function(requestAgent, validation) {
 
             validation.validateParams(params);
 
-            formData = descriptor;
+            promise = requestAgent.post(serviceUrl, descriptor);
         }
-
-        serviceUrl = this.baseUrl + '/create/' + siteName;
-        promise = requestAgent.ajax({
-            contentType: false,
-            data: formData,
-            processData: false,
-            type: 'POST',
-            url: serviceUrl
-        });
 
         if (DEBUG) {
             this.utils.logMethod({
@@ -355,7 +354,7 @@ define(['request_agent', '../validation'], function(requestAgent, validation) {
             formData,
             params,
             descriptorProperties,
-            serviceUrl,
+            serviceUrl = this.baseUrl + '/update/' + siteName,
             promise;
 
         descriptorProperties = [{
@@ -404,6 +403,14 @@ define(['request_agent', '../validation'], function(requestAgent, validation) {
                 }
             });
 
+            promise = requestAgent.ajax({
+                contentType: false,
+                data: formData,
+                processData: false,
+                type: 'POST',
+                url: serviceUrl
+            });
+
         } else {
             // Update new descriptor from inline content
             descriptorProperties.push({
@@ -416,17 +423,8 @@ define(['request_agent', '../validation'], function(requestAgent, validation) {
 
             validation.validateParams(params);
 
-            formData = descriptor;
+            promise = requestAgent.post(serviceUrl, descriptor);
         }
-
-        serviceUrl = this.baseUrl + '/update/' + siteName;
-        promise = requestAgent.ajax({
-            contentType: false,
-            data: formData,
-            processData: false,
-            type: 'POST',
-            url: serviceUrl
-        });
 
         if (DEBUG) {
             this.utils.logMethod({
