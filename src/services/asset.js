@@ -171,6 +171,65 @@ define(['request_agent', '../validation'], function(requestAgent, validation) {
     };
 
     /*
+     * @param obj object with all the necessary asset properties
+     */
+    module.prototype.duplicate = function duplicate (obj) {
+        var siteName = this.utils.getSite(),
+            params,
+            objProperties,
+            serviceUrl,
+            promise;
+
+        objProperties = [{
+            id: 'item_id',
+            name: 'property: item_id',
+            type: 'string',
+            required: true,
+            empty: false
+        }, {
+            id: 'parent_id',
+            name: 'property: parent_id',
+            type: 'string',
+            required: true
+        }, {
+            id: 'file_name',
+            name: 'property: file_name',
+            type: 'string',
+            required: true,
+            empty: false
+        }];
+
+        params = [{
+            name: 'site name',
+            value: siteName,
+            type: 'string',
+            required: true,
+            empty: false
+        }, {
+            name: 'obj',
+            value: obj,
+            type: 'object',
+            required: true,
+            properties: objProperties
+        }];
+
+        validation.validateParams(params);
+
+        serviceUrl = this.baseUrl + '/duplicate/' + siteName;
+        promise = requestAgent.post(serviceUrl, obj);
+
+        if (DEBUG) {
+            this.utils.logMethod({
+                name: this.name + '.duplicate',
+                url: serviceUrl,
+                promise: promise
+            });
+        }
+
+        return promise;
+    };
+
+    /*
      * @param queryObj object with the query information
      * @return TO-DO
      */
@@ -198,6 +257,65 @@ define(['request_agent', '../validation'], function(requestAgent, validation) {
         if (DEBUG) {
             this.utils.logMethod({
                 name: this.name + '.find',
+                url: serviceUrl,
+                promise: promise
+            });
+        }
+
+        return promise;
+    };
+
+        /*
+     * @param obj object with all the necessary asset properties
+     */
+    module.prototype.move = function move (obj) {
+        var siteName = this.utils.getSite(),
+            params,
+            objProperties,
+            serviceUrl,
+            promise;
+
+        objProperties = [{
+            id: 'item_id',
+            name: 'property: item_id',
+            type: 'string',
+            required: true,
+            empty: false
+        }, {
+            id: 'parent_id',
+            name: 'property: parent_id',
+            type: 'string',
+            required: true
+        }, {
+            id: 'file_name',
+            name: 'property: file_name',
+            type: 'string',
+            required: true,
+            empty: false
+        }];
+
+        params = [{
+            name: 'site name',
+            value: siteName,
+            type: 'string',
+            required: true,
+            empty: false
+        }, {
+            name: 'obj',
+            value: obj,
+            type: 'object',
+            required: true,
+            properties: objProperties
+        }];
+
+        validation.validateParams(params);
+
+        serviceUrl = this.baseUrl + '/move/' + siteName;
+        promise = requestAgent.post(serviceUrl, obj);
+
+        if (DEBUG) {
+            this.utils.logMethod({
+                name: this.name + '.move',
                 url: serviceUrl,
                 promise: promise
             });
