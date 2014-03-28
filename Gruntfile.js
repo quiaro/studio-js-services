@@ -247,6 +247,7 @@ module.exports = function(grunt) {
                     '<%= cfg.output.dev %>/index.html',
                     '<%= cfg.output.dev %>/{,*/}*.js',
                     '<%= cfg.root %><%= cfg.path.src %>/{,*/}*.js',
+                    '<%= cfg.root %><%= cfg.path.test %>/{,*/}*.js',
                 ]
             }
         }
