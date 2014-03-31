@@ -32,14 +32,13 @@ define([], function() {
 
         if (window.Blob) {
 
-            blob = new Blob([content], { type: 'application/xml' });
+            blob = new Blob([content], { type: 'text/html' });
 
-            editBlob = new Blob([editContent], { type: 'application/xml' });
+            editBlob = new Blob([editContent], { type: 'text/html' });
 
             TemplateServices.create({
-                content_type_id: 'sampleId',
                 parent_id: '/test/path',
-                file_name: 'template_file_sample.xml',
+                file_name: 'template_file_sample.ftl',
                 file: blob
             }).then(function(template){
                 console.log('New template from file: ', template);
@@ -54,20 +53,20 @@ define([], function() {
 
                     TemplateServices.read(template.id.itemId)
                         .then(function(metadata) {
-                            console.log('Descriptor read: ', metadata);
+                            console.log('Template read: ', metadata);
 
                             // TemplateServices.move({
                             //     item_id: template.id.itemId,
                             //     parent_id: '/test/moved_path',
                             //     file_name: 'file_sample_moved.xml'
                             // }).then(function(template) {
-                            //         console.log('Descriptor moved: ', template);
+                            //         console.log('Template moved: ', template);
 
                                 TemplateServices.update({
                                     item_id: template.id.itemId,
                                     file: editBlob
                                 }).then(function(template){
-                                    console.log('Descriptor updated via file: ', template);
+                                    console.log('Template updated via file: ', template);
 
                                     TemplateServices.readText(template.id.itemId)
                                         .then(function(text){
@@ -76,13 +75,13 @@ define([], function() {
 
                                     TemplateServices.delete(template.id.itemId)
                                         .then(function(){
-                                            console.log('Descriptor deleted');
+                                            console.log('Template deleted');
 
                                             TemplateServices.read(template.id.itemId)
                                                 .then(function(metadata) {
-                                                    console.log('Descriptor exists after deletion: ', metadata);
+                                                    console.log('Template exists after deletion: ', metadata);
                                                 }, function() {
-                                                    console.log('Descriptor was successfully deleted!');
+                                                    console.log('Template was successfully deleted!');
                                                 });
                                         });
                                 });
@@ -92,13 +91,12 @@ define([], function() {
             });
 
         } else {
-            console.log('Unable to test some of the Descriptor services. The browser does not have supoort for the Blob API');
+            console.log('Unable to test some of the Template services. The browser does not have supoort for the Blob API');
         }
 
         TemplateServices.create({
-            content_type_id: 'sampleId',
             parent_id: '/test/path',
-            file_name: 'template_content_sample.xml',
+            file_name: 'template_content_sample.ftl',
             content: content
         }).then(function(template){
             console.log('New template from inline content: ', template);
@@ -115,7 +113,7 @@ define([], function() {
                 //     parent_id: '/test/duplicate/path',
                 //     file_name: 'content_sample_duplicate.xml'
                 // }).then(function(duplicate){
-                //         console.log('Descriptor duplicate: ', duplicate);
+                //         console.log('Template duplicate: ', duplicate);
 
                 //     TemplateServices.read(duplicate.id.itemId)
                 //         .then(function(metadata) {
@@ -139,7 +137,7 @@ define([], function() {
                     item_id: template.id.itemId,
                     content: editContent
                 }).then(function(template){
-                    console.log('Descriptor updated via inline content: ', template);
+                    console.log('Template updated via inline content: ', template);
 
                     TemplateServices.readText(template.id.itemId)
                         .then(function(text){
@@ -148,13 +146,13 @@ define([], function() {
 
                     TemplateServices.delete(template.id.itemId)
                         .then(function(){
-                            console.log('Descriptor deleted');
+                            console.log('Template deleted');
 
                             TemplateServices.read(template.id.itemId)
                                 .then(function(metadata) {
-                                    console.log('Descriptor exists after deletion: ', metadata);
+                                    console.log('Template exists after deletion: ', metadata);
                                 }, function() {
-                                    console.log('Descriptor was successfully deleted!');
+                                    console.log('Template was successfully deleted!');
                                 });
                     });
                 });
