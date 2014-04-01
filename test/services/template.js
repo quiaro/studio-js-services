@@ -133,11 +133,11 @@ define([], function() {
                 //         });
                 // });
 
-                TemplateServices.update({
-                    item_id: template.id.itemId,
-                    content: editContent
-                }).then(function(template){
-                    console.log('Template updated via inline content: ', template);
+                // TemplateServices.update({
+                //     item_id: template.id.itemId,
+                //     content: editContent
+                // }).then(function(template){
+                //     console.log('Template updated via inline content: ', template);
 
                     TemplateServices.readText(template.id.itemId)
                         .then(function(text){
@@ -155,7 +155,7 @@ define([], function() {
                                     console.log('Template was successfully deleted!');
                                 });
                     });
-                });
+                // });
             }
 
         });
