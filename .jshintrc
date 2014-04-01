@@ -21,9 +21,5 @@
 
   "expr": true,
   "browser": true,
-  "node": true,
-  "jquery": true,
-  "globals": {
-    "angular": true
-  }
+  "node": true
 }
