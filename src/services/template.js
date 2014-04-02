@@ -1,34 +1,23 @@
-/* global define, DEBUG */
+/* global define */
 
-define(['request_agent', '../validation'], function(requestAgent, validation) {
+define(['./item'], function(Item) {
 
     'use strict';
 
-    var module = function (utils) {
-        this.name = 'Template';
-        this.utils = utils;
-        this.baseUrl = utils.getBaseUrl() + '/template';
-
-        if (DEBUG) {
-            this.utils.logService({
-                name: this.name,
-                url: this.baseUrl
-            });
-        }
+    var Template = function (utils) {
+        // Call the parent constructor
+        Item.apply(this, ['Template', utils, '/template']);
     };
+
+    Template.prototype = Object.create(Item.prototype);
+    Template.prototype.constructor = Template;
 
     /*
      * @param template object with all the necessary template properties
      */
-    module.prototype.create = function create (template) {
-        var siteName = this.utils.getSite(),
-            formData,
-            params,
-            templateProperties,
-            serviceUrl = this.baseUrl + '/create/' + siteName,
-            promise;
+    Template.prototype.create = function create (template) {
 
-        templateProperties = [{
+        var templateProperties = [{
             id: 'parent_id',
             name: 'property: parent_id',
             type: 'string',
@@ -39,20 +28,6 @@ define(['request_agent', '../validation'], function(requestAgent, validation) {
             type: 'string',
             required: true,
             empty: false
-        }];
-
-        params = [{
-            name: 'site name',
-            value: siteName,
-            type: 'string',
-            required: true,
-            empty: false
-        }, {
-            name: 'template',
-            value: template,
-            type: 'object',
-            required: true,
-            properties: templateProperties
         }];
 
         if (template.file) {
@@ -64,28 +39,7 @@ define(['request_agent', '../validation'], function(requestAgent, validation) {
                 required: true
             });
 
-            validation.validateParams(params);
-
-            formData = new FormData();
-
-            templateProperties.forEach( function(propertyObj) {
-
-                var propId = propertyObj.id;
-
-                if (propertyObj.type === 'file') {
-                    formData.append(propId, template[propId], template[propId].name);
-                } else {
-                    formData.append(propId, template[propId]);
-                }
-            });
-
-            promise = requestAgent.ajax({
-                contentType: false,
-                data: formData,
-                processData: false,
-                type: 'POST',
-                url: serviceUrl
-            });
+            return this.createFromFile(template, templateProperties);
 
         } else {
             // Create new template from inline content
@@ -97,281 +51,21 @@ define(['request_agent', '../validation'], function(requestAgent, validation) {
                 empty: false
             });
 
-            validation.validateParams(params);
-
-            promise = requestAgent.post(serviceUrl, template);
+            return this.createFromContent(template, templateProperties);
         }
-
-        if (DEBUG) {
-            this.utils.logMethod({
-                name: this.name + '.create',
-                url: serviceUrl,
-                promise: promise
-            });
-        }
-
-        return promise;
-    };
-
-    /*
-     * @param itemId id of the template to delete
-     */
-    module.prototype.delete = function deleteFn (itemId) {
-        var siteName = this.utils.getSite(),
-            serviceUrl,
-            promise;
-
-        validation.validateParams([{
-            name: 'site name',
-            value: siteName,
-            type: 'string',
-            required: true,
-            empty: false
-        }, {
-            name: 'itemId',
-            value: itemId,
-            type: 'string',
-            required: true,
-            empty: false
-        }]);
-
-        serviceUrl = this.baseUrl + '/delete/' + siteName;
-        promise = requestAgent.post(serviceUrl, { item_id: itemId });
-
-        if (DEBUG) {
-            this.utils.logMethod({
-                name: this.name + '.delete',
-                url: serviceUrl,
-                promise: promise
-            });
-        }
-
-        return promise;
-    };
-
-    /*
-     * @param obj object with all the necessary template properties
-     */
-    module.prototype.duplicate = function duplicate (obj) {
-        var siteName = this.utils.getSite(),
-            params,
-            objProperties,
-            serviceUrl,
-            promise;
-
-        objProperties = [{
-            id: 'item_id',
-            name: 'property: item_id',
-            type: 'string',
-            required: true,
-            empty: false
-        }, {
-            id: 'parent_id',
-            name: 'property: parent_id',
-            type: 'string',
-            required: true
-        }, {
-            id: 'file_name',
-            name: 'property: file_name',
-            type: 'string',
-            required: true,
-            empty: false
-        }];
-
-        params = [{
-            name: 'site name',
-            value: siteName,
-            type: 'string',
-            required: true,
-            empty: false
-        }, {
-            name: 'obj',
-            value: obj,
-            type: 'object',
-            required: true,
-            properties: objProperties
-        }];
-
-        validation.validateParams(params);
-
-        serviceUrl = this.baseUrl + '/duplicate/' + siteName;
-        promise = requestAgent.post(serviceUrl, obj);
-
-        if (DEBUG) {
-            this.utils.logMethod({
-                name: this.name + '.duplicate',
-                url: serviceUrl,
-                promise: promise
-            });
-        }
-
-        return promise;
-    };
-
-    /*
-     * @param obj object with all the necessary template properties
-     */
-    module.prototype.move = function move (obj) {
-        var siteName = this.utils.getSite(),
-            params,
-            objProperties,
-            serviceUrl,
-            promise;
-
-        objProperties = [{
-            id: 'item_id',
-            name: 'property: item_id',
-            type: 'string',
-            required: true,
-            empty: false
-        }, {
-            id: 'parent_id',
-            name: 'property: parent_id',
-            type: 'string',
-            required: true
-        }, {
-            id: 'file_name',
-            name: 'property: file_name',
-            type: 'string',
-            required: true,
-            empty: false
-        }];
-
-        params = [{
-            name: 'site name',
-            value: siteName,
-            type: 'string',
-            required: true,
-            empty: false
-        }, {
-            name: 'obj',
-            value: obj,
-            type: 'object',
-            required: true,
-            properties: objProperties
-        }];
-
-        validation.validateParams(params);
-
-        serviceUrl = this.baseUrl + '/move/' + siteName;
-        promise = requestAgent.post(serviceUrl, obj);
-
-        if (DEBUG) {
-            this.utils.logMethod({
-                name: this.name + '.move',
-                url: serviceUrl,
-                promise: promise
-            });
-        }
-
-        return promise;
-    };
-
-    /*
-     * @param itemId id of the template to read
-     * @return templateMetadata metadata of an template
-     */
-    module.prototype.read = function read (itemId) {
-        var siteName = this.utils.getSite(),
-            serviceUrl,
-            promise;
-
-        validation.validateParams([{
-            name: 'site name',
-            value: siteName,
-            type: 'string',
-            required: true,
-            empty: false
-        }, {
-            name: 'itemId',
-            value: itemId,
-            type: 'string',
-            required: true,
-            empty: false
-        }]);
-
-        serviceUrl = this.baseUrl + '/read/' + siteName + '?item_id=' + itemId;
-        promise = requestAgent.getJSON(serviceUrl);
-
-        if (DEBUG) {
-            this.utils.logMethod({
-                name: this.name + '.read',
-                url: serviceUrl,
-                promise: promise
-            });
-        }
-
-        return promise;
-    };
-
-    /*
-     * @param itemId id of the template to read
-     * @return Text value of the template
-     */
-    module.prototype.readText = function readText (itemId) {
-        var siteName = this.utils.getSite(),
-            serviceUrl,
-            promise;
-
-        validation.validateParams([{
-            name: 'site name',
-            value: siteName,
-            type: 'string',
-            required: true,
-            empty: false
-        }, {
-            name: 'itemId',
-            value: itemId,
-            type: 'string',
-            required: true,
-            empty: false
-        }]);
-
-        serviceUrl = this.baseUrl + '/read_text/' + siteName + '?item_id=' + itemId;
-        promise = requestAgent.get(serviceUrl);
-
-        if (DEBUG) {
-            this.utils.logMethod({
-                name: this.name + '.readText',
-                url: serviceUrl,
-                promise: promise
-            });
-        }
-
-        return promise;
     };
 
     /*
      * @param template object with all the necessary template properties
      */
-    module.prototype.update = function update (template) {
-        var siteName = this.utils.getSite(),
-            formData,
-            params,
-            templateProperties,
-            serviceUrl = this.baseUrl + '/update/' + siteName,
-            promise;
+    Template.prototype.update = function update (template) {
 
-        templateProperties = [{
+        var templateProperties = [{
             id: 'item_id',
             name: 'property: item_id',
             type: 'string',
             required: true,
             empty: false
-        }];
-
-        params = [{
-            name: 'site name',
-            value: siteName,
-            type: 'string',
-            required: true,
-            empty: false
-        }, {
-            name: 'template',
-            value: template,
-            type: 'object',
-            required: true,
-            properties: templateProperties
         }];
 
         if (template.file) {
@@ -383,28 +77,7 @@ define(['request_agent', '../validation'], function(requestAgent, validation) {
                 required: true
             });
 
-            validation.validateParams(params);
-
-            formData = new FormData();
-
-            templateProperties.forEach( function(propertyObj) {
-
-                var propId = propertyObj.id;
-
-                if (propertyObj.type === 'file') {
-                    formData.append(propId, template[propId], template[propId].name);
-                } else {
-                    formData.append(propId, template[propId]);
-                }
-            });
-
-            promise = requestAgent.ajax({
-                contentType: false,
-                data: formData,
-                processData: false,
-                type: 'POST',
-                url: serviceUrl
-            });
+            return this.updateFromFile(template, templateProperties);
 
         } else {
             // Update new template from inline content
@@ -416,22 +89,10 @@ define(['request_agent', '../validation'], function(requestAgent, validation) {
                 empty: false
             });
 
-            validation.validateParams(params);
-
-            promise = requestAgent.post(serviceUrl, template);
+            return this.updateFromContent(template, templateProperties);
         }
-
-        if (DEBUG) {
-            this.utils.logMethod({
-                name: this.name + '.update',
-                url: serviceUrl,
-                promise: promise
-            });
-        }
-
-        return promise;
     };
 
-    return module;
+    return Template;
 
 });
