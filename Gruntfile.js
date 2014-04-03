@@ -170,7 +170,7 @@ module.exports = function(grunt) {
                     name: 'almond',
                     include: ['studioServices'],
                     optimize: 'none',
-                    out: '<%= cfg.output.dist %>/studioServices.js',
+                    out: '<%= cfg.output.dist %>/studioServices.src.js',
                     paths: {
                         almond: '../lib/almond/js/almond',
                         request_agent: '../lib/request-agent/js/request-agent'
@@ -221,8 +221,8 @@ module.exports = function(grunt) {
             },
             dist: {
                 files: {
-                    '<%= cfg.output.dist %>/studioServices.min.js':
-                    ['<%= cfg.output.dist %>/studioServices.js']
+                    '<%= cfg.output.dist %>/studioServices.js':
+                    ['<%= cfg.output.dist %>/studioServices.src.js']
                 }
             }
         },
