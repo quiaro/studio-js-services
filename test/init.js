@@ -1,5 +1,5 @@
 
-requirejs(['studioServices',
+requirejs(['studioServices/studioServices',
            'test.js'], function(StudioServices, test) {
 
     var services = new StudioServices({

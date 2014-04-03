@@ -1,8 +1,11 @@
 /* global define */
 
-define(['./item'], function(Item) {
+define(function(require) {
 
     'use strict';
+
+    // module dependencies
+    var Item = require('./item');
 
     var Descriptor = function (utils) {
         // Call the parent constructor

@@ -139,7 +139,7 @@ module.exports = function(grunt) {
         replace: {
             options: {
                 variables: {
-                    'main_path': 'dist/',
+                    'services_root': 'dist/',
                     'min': '.min',
                     'debug': false
                 }
@@ -147,7 +147,7 @@ module.exports = function(grunt) {
             dev: {
                 options: {
                     variables: {
-                        'main_path': 'src/',
+                        'services_root': 'src/',
                         'min': '',
                         'debug': true
                     }

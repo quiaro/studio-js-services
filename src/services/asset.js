@@ -1,8 +1,13 @@
 /* global define, DEBUG */
 
-define(['request_agent', '../validation', './item'], function(requestAgent, validation, Item) {
+define(function(require) {
 
     'use strict';
+
+    // module dependencies
+    var requestAgent = require('request_agent'),
+        validation = require('../validation'),
+        Item = require('./item');
 
     var Asset = function (utils) {
         // Call the parent constructor

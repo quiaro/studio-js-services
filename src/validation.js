@@ -1,8 +1,12 @@
 /* global define, DEBUG */
 
-define(['request_agent', 'serviceError'], function(requestAgent, ServiceError) {
+define(function(require) {
 
     'use strict';
+
+    // module dependencies
+    var requestAgent = require('request_agent'),
+        ServiceError = require('./serviceError');
 
     /*
      * @param object JS object

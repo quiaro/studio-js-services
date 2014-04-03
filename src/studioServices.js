@@ -1,12 +1,15 @@
 /* global define */
 
-define(['services/asset',
-        'services/config',
-        'services/descriptor',
-        'services/template',
-        'utils'], function (Asset, Config, Descriptor, Template, Utils) {
+define(function (require) {
 
     'use strict';
+
+    // module dependencies
+    var Asset = require('./services/asset'),
+        Config = require('./services/config'),
+        Descriptor = require('./services/descriptor'),
+        Template = require('./services/template'),
+        Utils = require('./utils');
 
     return function(customConfig) {
 

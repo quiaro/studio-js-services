@@ -1,8 +1,12 @@
 /* global define, DEBUG */
 
-define(['request_agent', 'config'], function(requestAgent, CFG) {
+define(function(require) {
 
     'use strict';
+
+    // module dependencies
+    var requestAgent = require('request_agent'),
+        CFG = require('./config');
 
     var module = function (customConfig) {
         this.config = requestAgent.extend(true, {}, CFG, customConfig);

@@ -1,8 +1,12 @@
 /* global define, DEBUG */
 
-define(['request_agent', '../validation'], function(requestAgent, validation){
+define(function(require){
 
     'use strict';
+
+    // module dependencies
+    var requestAgent = require('request_agent'),
+        validation = require('../validation');
 
     var module = function (utils) {
         this.name = 'Config';
