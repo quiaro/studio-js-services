@@ -382,6 +382,41 @@ define(function(require) {
     };
 
     /*
+     * @param itemId id of the item to read
+     * @return text value of the item
+     */
+    Item.prototype.list = function list (itemId) {
+        var siteName = this.utils.getSite(),
+            serviceUrl,
+            promise;
+
+        validation.validateParams([{
+            name: 'site name',
+            value: siteName,
+            type: 'string',
+            required: true,
+            empty: false
+        }, {
+            name: 'itemId',
+            value: itemId,
+            type: 'string'
+        }]);
+
+        serviceUrl = this.baseUrl + '/list/' + siteName;
+        promise = requestAgent.get(serviceUrl);
+
+        if (DEBUG) {
+            this.utils.logMethod({
+                name: this.name + '.list',
+                url: serviceUrl,
+                promise: promise
+            });
+        }
+
+        return promise;
+    };
+
+    /*
      * @param item object with all the necessary item properties
      * @param itemPropValidationList array with all the property validation definitions
      */
