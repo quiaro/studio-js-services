@@ -3,7 +3,6 @@
 define({
     server: {
         domain: '',
-        port: '',
         protocol: 'http:'
     },
     site: '',
