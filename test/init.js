@@ -4,10 +4,11 @@ requirejs(['studioServices/studioServices',
 
     var services = new StudioServices({
             server: {
-                domain: 'studio3.craftercms.org'
+                domain: 'studio3.craftercms.org',
+                port: ''
             },
             api: {
-                base: 'studio-server/api'
+                base: 'api'
             }
         });
 
