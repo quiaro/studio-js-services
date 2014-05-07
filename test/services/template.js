@@ -37,7 +37,7 @@ define([], function() {
             editBlob = new Blob([editContent], { type: 'text/html' });
 
             TemplateServices.create({
-                parent_id: '/test/path',
+                parent_id: '/',
                 file_name: 'template_file_sample.ftl',
                 file: blob
             }).then(function(template){
@@ -45,6 +45,10 @@ define([], function() {
 
                 if (template && template.id && template.id.itemId) {
                     console.log('Read template with id: ', template.id.itemId);
+
+                    TemplateServices.list().then( function (templates) {
+                        console.log('Listing templates at the root level: ', templates);
+                    })
 
                     TemplateServices.readText(template.id.itemId)
                         .then(function(text){

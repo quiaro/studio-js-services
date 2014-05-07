@@ -40,7 +40,7 @@ define([], function() {
 
             DescriptorServices.create({
                 content_type_id: 'sampleId',
-                parent_id: '/test/path',
+                parent_id: '/',
                 file_name: 'descriptor_file_sample.xml',
                 file: blob
             }).then(function(descriptor){
@@ -48,6 +48,10 @@ define([], function() {
 
                 if (descriptor && descriptor.id && descriptor.id.itemId) {
                     console.log('Read descriptor with id: ', descriptor.id.itemId);
+
+                    DescriptorServices.list().then( function (descriptors) {
+                        console.log('Listing descriptors at the root level: ', descriptors);
+                    })
 
                     DescriptorServices.readText(descriptor.id.itemId)
                         .then(function(text){

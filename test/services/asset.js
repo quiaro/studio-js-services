@@ -7,7 +7,7 @@ define([], function() {
             blob = new Blob(['Hello world!'], { type: 'text/plain' });
 
             AssetServices.create({
-                parent_id: '/test/path',
+                parent_id: '/',
                 file_name: 'asset_sample.txt',
                 file: blob,
                 mime_type: 'text/plain'
@@ -17,6 +17,10 @@ define([], function() {
 
                 if (asset && asset.id && asset.id.itemId) {
                     console.log('Get contents from asset with id: ', asset.id.itemId);
+
+                    AssetServices.list().then( function (assets) {
+                        console.log('Listing assets at the root level: ', assets);
+                    })
 
                     AssetServices.getContent(asset.id.itemId)
                         .then(function(content){
