@@ -37,7 +37,7 @@ define([], function() {
             editBlob = new Blob([editContent], { type: 'text/html' });
 
             TemplateServices.create({
-                parent_id: '/',
+                parent_id: '/templates',
                 file_name: 'template_file_sample.ftl',
                 file: blob
             }).then(function(template){

@@ -7,7 +7,7 @@ define([], function() {
             blob = new Blob(['Hello world!'], { type: 'text/plain' });
 
             AssetServices.create({
-                parent_id: '/',
+                parent_id: '/static-assets',
                 file_name: 'asset_sample.txt',
                 file: blob,
                 mime_type: 'text/plain'

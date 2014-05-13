@@ -40,7 +40,7 @@ define([], function() {
 
             DescriptorServices.create({
                 content_type_id: 'sampleId',
-                parent_id: '/',
+                parent_id: '/site',
                 file_name: 'descriptor_file_sample.xml',
                 file: blob
             }).then(function(descriptor){
